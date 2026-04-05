@@ -19,11 +19,9 @@ function App() {
       {/* Navigation */}
       <nav className="navbar">
         <div className="nav-container">
-          <div className="nav-logo">🚀 WEB CAN</div>
+          <img className="nav-logo" src="/logo.png" alt="WEB CAN Logo" />
           <div className="nav-links">
-            <a href="#services">Услуги</a>
-            <a href="#process">Процесс</a>
-            <a href="#projects">Проекты</a>
+            <a href="#niches">Направления</a>
             <a href="#contacts">Контакты</a>
           </div>
         </div>
@@ -52,15 +50,15 @@ function App() {
             
             <div className="hero-stats">
               <div className="stat-item">
-                <div className="stat-value">150+</div>
+                <div className="stat-value">15+</div>
                 <div className="stat-label">Реализовано проектов</div>
               </div>
               <div className="stat-item">
-                <div className="stat-value">98%</div>
+                <div className="stat-value">90%</div>
                 <div className="stat-label">Клиентов остаются с нами</div>
               </div>
               <div className="stat-item">
-                <div className="stat-value">7</div>
+                <div className="stat-value">5</div>
                 <div className="stat-label">Лет профессионального опыта</div>
               </div>
             </div>
@@ -69,8 +67,8 @@ function App() {
               <button className="btn btn-primary" onClick={() => document.getElementById('contacts').scrollIntoView({ behavior: 'smooth' })}>
                 Получить консультацию
               </button>
-              <button className="btn btn-secondary">
-                Посмотреть портфолио ↓
+              <button className="btn btn-secondary" onClick={() => document.getElementById('niches').scrollIntoView({ behavior: 'smooth' })}>
+                Наши направления ↓
               </button>
             </div>
           </div>
@@ -222,255 +220,44 @@ function App() {
         </div>
       </section>
 
-      {/* Services */}
-      <section id="services" className="services">
-        <div className="section-label">Наши услуги</div>
-        <h2>Полный цикл веб-разработки</h2>
-        <p className="section-subtitle">От идеи до запуска — мы ведём вас на каждом этапе</p>
-
-        <div className="services-grid">
-          <div className="service-box gradient-purple">
-            <div className="service-icon">🎨</div>
-            <h3>UI/UX Дизайн</h3>
-            <p>Создаём интерфейсы, которые не просто красивы — они работают. Каждый пиксель продуман для максимального удобства пользователя.</p>
-            <ul className="service-features">
-              <li>Figma макеты</li>
-              <li>Прототипирование</li>
-              <li>Дизайн-система</li>
-              <li>User research</li>
-            </ul>
-          </div>
-
-          <div className="service-box gradient-pink">
-            <div className="service-icon">⚛️</div>
-            <h3>Frontend</h3>
-            <p>Быстрые, отзывчивые приложения на современных фреймворках. React, Vue, TypeScript — мы работаем с лучшими инструментами.</p>
-            <ul className="service-features">
-              <li>React / Next.js</li>
-              <li>TypeScript</li>
-              <li>Responsive Design</li>
-              <li>Web Animation</li>
-            </ul>
-          </div>
-
-          <div className="service-box gradient-blue">
-            <div className="service-icon">🔧</div>
-            <h3>Backend</h3>
-            <p>Надёжная серверная часть на Node.js, Python, Go. Масштабируемая архитектура, защита данных, оптимальная производительность.</p>
-            <ul className="service-features">
-              <li>Node.js / Express</li>
-              <li>PostgreSQL / MongoDB</li>
-              <li>REST API / GraphQL</li>
-              <li>Микросервисы</li>
-            </ul>
-          </div>
-
-          <div className="service-box gradient-orange">
-            <div className="service-icon">📱</div>
-            <h3>Мобильные приложения</h3>
-            <p>Кроссплатформенные приложения для iOS и Android. React Native для быстрого развёртывания, нативный код для максимальной производительности.</p>
-            <ul className="service-features">
-              <li>React Native</li>
-              <li>Native iOS/Android</li>
-              <li>App Store / Play Market</li>
-              <li>Push-уведомления</li>
-            </ul>
-          </div>
-
-          <div className="service-box gradient-green">
-            <div className="service-icon">🚀</div>
-            <h3>Деплой & DevOps</h3>
-            <p>Безопасный запуск в production. Docker, Kubernetes, CI/CD пайплайны. AWS, Google Cloud, собственные серверы — где угодно.</p>
-            <ul className="service-features">
-              <li>Docker & Kubernetes</li>
-              <li>CI/CD автоматизация</li>
-              <li>Cloud сервисы</li>
-              <li>Мониторинг & Логирование</li>
-            </ul>
-          </div>
-
-          <div className="service-box gradient-purple-alt">
-            <div className="service-icon">🔍</div>
-            <h3>SEO & Аналитика</h3>
-            <p>Ваш сайт будет виден в Google. Полная оптимизация, структурированные данные, аналитика, отслеживание конверсий.</p>
-            <ul className="service-features">
-              <li>SEO оптимизация</li>
-              <li>Google Analytics</li>
-              <li>Метрики производительности</li>
-              <li>A/B тестирование</li>
-            </ul>
-          </div>
+      {/* Niches */}
+      <section id="niches" className="niches">
+        <div className="container">
+          <div className="section-label">Направления</div>
+          <h2>Сайты для авто-бизнеса</h2>
+          <p className="section-subtitle">Знаем специфику каждой ниши — делаем сайты, которые приводят клиентов</p>
         </div>
-      </section>
 
-      {/* Process */}
-      <section id="process" className="process">
-        <div className="section-label">Наш процесс</div>
-        <h2>Как мы работаем</h2>
-        <p className="section-subtitle">Проверенная методология для гарантированного успеха</p>
-
-        <div className="process-timeline">
-          <div className="timeline-item">
-            <div className="timeline-number">01</div>
-            <div className="timeline-content">
-              <h3>Аналитика & Планирование</h3>
-              <p>Изучаем бизнес, конкурентов, целевую аудиторию. Ставим чёткие метрики успеха и сроки.</p>
-            </div>
-          </div>
-
-          <div className="timeline-item">
-            <div className="timeline-number">02</div>
-            <div className="timeline-content">
-              <h3>Дизайн</h3>
-              <p>Создаём макеты, прототипы, тестируем с пользователями. Согласуем каждый элемент.</p>
-            </div>
-          </div>
-
-          <div className="timeline-item">
-            <div className="timeline-number">03</div>
-            <div className="timeline-content">
-              <h3>Разработка</h3>
-              <p>Пишем чистый код, следуем best practices. Регулярный код ревью и тестирование.</p>
-            </div>
-          </div>
-
-          <div className="timeline-item">
-            <div className="timeline-number">04</div>
-            <div className="timeline-content">
-              <h3>QA & Тестирование</h3>
-              <p>Полное функциональное тестирование, проверка на всех браузерах и устройствах.</p>
-            </div>
-          </div>
-
-          <div className="timeline-item">
-            <div className="timeline-number">05</div>
-            <div className="timeline-content">
-              <h3>Деплой</h3>
-              <p>Запуск на боевой сервер, настройка CDN, SSL. Мониторинг и резервные копии.</p>
-            </div>
-          </div>
-
-          <div className="timeline-item">
-            <div className="timeline-number">06</div>
-            <div className="timeline-content">
-              <h3>Поддержка</h3>
-              <p>24/7 техподдержка, обновления, исправление багов, развитие функционала.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Projects */}
-      <section id="projects" className="projects">
-        <div className="section-label">Портфолио</div>
-        <h2>Наши лучшие работы</h2>
-        <p className="section-subtitle">Проекты, которыми мы гордимся</p>
-
-        <div className="projects-grid">
-          <div className="project-card">
-            <div className="project-image" style={{background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'}}></div>
-            <div className="project-info">
-              <h3>E-Commerce Platform</h3>
-              <p>Полнофункциональный интернет-магазин с интеграцией платёжек, рекомендациями ML и админ-панелью.</p>
-              <div className="project-tech">
-                <span>React</span>
-                <span>Node.js</span>
-                <span>PostgreSQL</span>
+        <div className="niches-grid">
+          {[
+            { title: 'Автомойки', desc: 'Онлайн-запись и акции', img: 'https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=800&q=80' },
+            { title: 'Детейлинг', desc: 'Портфолио работ и услуги', img: 'https://images.unsplash.com/photo-1601362840469-51e4d8d58785?w=800&q=80' },
+            { title: 'Автосервис', desc: 'Доверие с первого клика', img: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80' },
+            { title: 'Пригон авто', desc: 'Каталог и калькулятор', img: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80' },
+            { title: 'Шиномонтаж', desc: 'Сезонная запись и бонусы', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80' },
+            { title: 'Автозапчасти', desc: 'Каталог и подбор по авто', img: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80' },
+            { title: 'Тонировка', desc: 'Портфолио и прайс', img: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80' },
+            { title: 'Автопрокат', desc: 'Бронирование и автопарк', img: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80' },
+          ].map((niche) => (
+            <div className="niche-card" key={niche.title}>
+              <div className="niche-bg" style={{ backgroundImage: `url(${niche.img})` }}></div>
+              <div className="niche-overlay"></div>
+              <div className="niche-content">
+                <h3>{niche.title}</h3>
+                <p>{niche.desc}</p>
               </div>
             </div>
-          </div>
-
-          <div className="project-card">
-            <div className="project-image" style={{background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'}}></div>
-            <div className="project-info">
-              <h3>SaaS Dashboard</h3>
-              <p>Облачное приложение для управления проектами с real-time коллаборацией и расширенной аналитикой.</p>
-              <div className="project-tech">
-                <span>Next.js</span>
-                <span>Firebase</span>
-                <span>Tailwind</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="project-card">
-            <div className="project-image" style={{background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'}}></div>
-            <div className="project-info">
-              <h3>Корпоративный портал</h3>
-              <p>Сайт крупной компании с CMS, персонализацией контента, интеграцией CRM и SEO оптимизацией.</p>
-              <div className="project-tech">
-                <span>Vue.js</span>
-                <span>Express</span>
-                <span>MongoDB</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="project-card">
-            <div className="project-image" style={{background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'}}></div>
-            <div className="project-info">
-              <h3>Мобильное приложение</h3>
-              <p>React Native приложение для доставки с геолокацией, рейтингом и встроенным мессенджером.</p>
-              <div className="project-tech">
-                <span>React Native</span>
-                <span>Google Maps</span>
-                <span>Firebase</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Tech Stack */}
-      <section className="tech-stack">
-        <div className="section-label">Технологии</div>
-        <h2>Современный стек</h2>
-        <p className="section-subtitle">Мы используем лучшие инструменты индустрии</p>
-
-        <div className="tech-grid">
-          <div className="tech-group">
-            <h4>Frontend</h4>
-            <div className="tech-badges">
-              <span className="badge">React</span>
-              <span className="badge">Next.js</span>
-              <span className="badge">Vue.js</span>
-              <span className="badge">TypeScript</span>
-              <span className="badge">Tailwind CSS</span>
-              <span className="badge">Vite</span>
-            </div>
-          </div>
-
-          <div className="tech-group">
-            <h4>Backend</h4>
-            <div className="tech-badges">
-              <span className="badge">Node.js</span>
-              <span className="badge">Express</span>
-              <span className="badge">Python</span>
-              <span className="badge">PostgreSQL</span>
-              <span className="badge">MongoDB</span>
-              <span className="badge">Redis</span>
-            </div>
-          </div>
-
-          <div className="tech-group">
-            <h4>DevOps</h4>
-            <div className="tech-badges">
-              <span className="badge">Docker</span>
-              <span className="badge">Kubernetes</span>
-              <span className="badge">AWS</span>
-              <span className="badge">GitHub Actions</span>
-              <span className="badge">Linux</span>
-              <span className="badge">Nginx</span>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
       {/* Testimonials */}
       <section className="testimonials">
-        <div className="section-label">Отзывы</div>
-        <h2>Что говорят клиенты</h2>
-        <p className="section-subtitle">Реальные истории успеха реальных компаний</p>
+        <div className="container">
+          <div className="section-label">Отзывы</div>
+          <h2>Что говорят клиенты</h2>
+          <p className="section-subtitle">Реальные истории успеха реальных компаний</p>
+        </div>
 
         <div className="testimonials-grid">
           <div className="testimonial-card">
@@ -551,18 +338,18 @@ function App() {
             <p>Веб-агентство полного цикла. Создаём цифровые решения, которые работают.</p>
           </div>
           <div className="footer-col">
-            <h4>Услуги</h4>
+            <h4>Направления</h4>
             <ul>
-              <li><a href="#services">Дизайн</a></li>
-              <li><a href="#services">Разработка</a></li>
-              <li><a href="#services">DevOps</a></li>
-              <li><a href="#services">Поддержка</a></li>
+              <li><a href="#niches">Автомойки</a></li>
+              <li><a href="#niches">Детейлинг</a></li>
+              <li><a href="#niches">Автосервис</a></li>
+              <li><a href="#niches">Пригон авто</a></li>
             </ul>
           </div>
           <div className="footer-col">
             <h4>Компания</h4>
             <ul>
-              <li><a href="#projects">Портфолио</a></li>
+              <li><a href="#niches">Направления</a></li>
               <li><a href="#contacts">Контакты</a></li>
               <li><a href="#">О нас</a></li>
               <li><a href="#">Блог</a></li>
