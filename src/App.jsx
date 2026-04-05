@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import './App.css'
 
 function App() {
@@ -230,23 +231,23 @@ function App() {
 
         <div className="niches-grid">
           {[
-            { title: 'Автомойки', desc: 'Онлайн-запись и акции', img: 'https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=800&q=80' },
-            { title: 'Детейлинг', desc: 'Портфолио работ и услуги', img: 'https://images.unsplash.com/photo-1601362840469-51e4d8d58785?w=800&q=80' },
-            { title: 'Автосервис', desc: 'Доверие с первого клика', img: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80' },
-            { title: 'Пригон авто', desc: 'Каталог и калькулятор', img: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80' },
-            { title: 'Шиномонтаж', desc: 'Сезонная запись и бонусы', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80' },
-            { title: 'Автозапчасти', desc: 'Каталог и подбор по авто', img: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80' },
-            { title: 'Тонировка', desc: 'Портфолио и прайс', img: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80' },
-            { title: 'Автопрокат', desc: 'Бронирование и автопарк', img: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80' },
+            { title: 'Автомойки', desc: 'Онлайн-запись и акции', img: 'https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=800&q=80', link: '/demo/carwash' },
+            { title: 'Детейлинг', desc: 'Портфолио работ и услуги', img: 'https://images.unsplash.com/photo-1601362840469-51e4d8d58785?w=800&q=80', link: '/demo/detailing' },
+            { title: 'Автосервис', desc: 'Доверие с первого клика', img: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80', link: '/demo/autoservice' },
+            { title: 'Пригон авто', desc: 'Каталог и калькулятор', img: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80', link: '/demo/carimport' },
+            { title: 'Шиномонтаж', desc: 'Сезонная запись и бонусы', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80', link: '/demo/tireservice' },
+            { title: 'Автозапчасти', desc: 'Каталог и подбор по авто', img: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80', link: '/demo/autoparts' },
+            { title: 'Тонировка', desc: 'Портфолио и прайс', img: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80', link: '/demo/tinting' },
+            { title: 'Автопрокат', desc: 'Бронирование и автопарк', img: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80', link: '/demo/carrental' },
           ].map((niche) => (
-            <div className="niche-card" key={niche.title}>
+            <Link to={niche.link} className="niche-card" key={niche.title}>
               <div className="niche-bg" style={{ backgroundImage: `url(${niche.img})` }}></div>
               <div className="niche-overlay"></div>
               <div className="niche-content">
                 <h3>{niche.title}</h3>
                 <p>{niche.desc}</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
