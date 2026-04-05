@@ -21,7 +21,7 @@ export default function CarWashDemo() {
   }
 
   return (
-    <div className="demo-page">
+    <div className="demo-page theme-carwash">
       <Link to="/" className="demo-back">← WEB CAN</Link>
 
       <div className="demo-banner">
@@ -29,7 +29,7 @@ export default function CarWashDemo() {
         <Link to="/#niches">Заказать такой же</Link>
       </div>
 
-      <nav className="demo-nav" style={{ background: 'rgba(15,23,42,0.95)' }}>
+      <nav className="demo-nav">
         <div className="demo-nav-inner">
           <div className="demo-nav-brand">🚿 AquaShine</div>
           <div className="demo-nav-links">
@@ -82,10 +82,10 @@ export default function CarWashDemo() {
           <p>Выберите удобное время и запишитесь прямо сейчас</p>
 
           {booked ? (
-            <div style={{ padding: '32px', background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: '12px', textAlign: 'center', maxWidth: '500px' }}>
-              <div style={{ fontSize: '48px', marginBottom: '12px' }}>✅</div>
+            <div className="demo-success-box">
+              <div className="demo-success-icon">✅</div>
               <h3>Вы записаны!</h3>
-              <p style={{ color: '#94a3b8', marginTop: '8px' }}>Время: {selectedSlot} · Мы отправим SMS-напоминание</p>
+              <p className="demo-success-detail">Время: {selectedSlot} · Мы отправим SMS-напоминание</p>
             </div>
           ) : (
             <form className="demo-form" onSubmit={handleBook}>
@@ -99,7 +99,7 @@ export default function CarWashDemo() {
                 <option value="minivan">Минивэн / Большой SUV</option>
               </select>
               <div>
-                <p style={{ fontSize: '14px', color: '#94a3b8', marginBottom: '12px' }}>Доступное время на сегодня:</p>
+                <p className="demo-text-muted" style={{ marginBottom: '12px' }}>Доступное время на сегодня:</p>
                 <div className="demo-slots">
                   {slots.map(s => (
                     <div

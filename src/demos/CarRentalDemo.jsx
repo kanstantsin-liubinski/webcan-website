@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './demo.css'
 
@@ -35,11 +35,11 @@ export default function CarRentalDemo() {
   }
 
   return (
-    <div className="demo-page">
+    <div className="demo-page theme-carrental">
       <Link to="/" className="demo-back">← WEB CAN</Link>
       <div className="demo-banner">✨ Это демо-сайт — пример работы WEB CAN для сервисов автопроката<Link to="/#niches">Заказать такой же</Link></div>
 
-      <nav className="demo-nav" style={{ background: 'rgba(15,23,42,0.95)' }}>
+      <nav className="demo-nav">
         <div className="demo-nav-inner">
           <div className="demo-nav-brand">🚗 DriveRent</div>
           <div className="demo-nav-links">
@@ -76,19 +76,19 @@ export default function CarRentalDemo() {
       <section id="fleet" className="demo-section">
         <h2>Автопарк</h2>
         <p>Выберите класс авто</p>
-        <div style={{ display: 'flex', gap: '10px', marginBottom: '24px', flexWrap: 'wrap' }}>
+        <div className="demo-filter-tabs">
           {categories.map(c => (
             <button key={c} className={`demo-btn ${cat === c ? 'demo-btn-primary' : 'demo-btn-secondary'}`} style={{ padding: '8px 20px', fontSize: '13px' }} onClick={() => setCat(c)}>{c}</button>
           ))}
         </div>
         <div className="demo-catalog">
           {filtered.map(car => (
-            <div className="demo-catalog-item" key={car.id} onClick={() => { setSelectedCar(car); document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' }) }} style={{ cursor: 'pointer', borderColor: selectedCar?.id === car.id ? '#3b82f6' : undefined }}>
+            <div className="demo-catalog-item" key={car.id} onClick={() => { setSelectedCar(car); document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' }) }} style={{ cursor: 'pointer', borderColor: selectedCar?.id === car.id ? 'var(--demo-primary)' : undefined }}>
               <img className="demo-catalog-img" src={car.img} alt={car.name} />
               <div className="demo-catalog-info">
                 <h4>{car.name}</h4>
                 <p>{car.cat} · {car.seats} мест · {car.transmission}</p>
-                <div className="demo-catalog-price">{fmt(car.price)} ₽<span style={{ fontSize: '13px', color: '#64748b', fontWeight: 400 }}> / сутки</span></div>
+                <div className="demo-catalog-price">{fmt(car.price)} ₽<span className="demo-text-dim"> / сутки</span></div>
               </div>
             </div>
           ))}
@@ -101,28 +101,28 @@ export default function CarRentalDemo() {
           <p>{selectedCar ? `Вы выбрали: ${selectedCar.name}` : 'Выберите авто из каталога выше'}</p>
 
           {booked ? (
-            <div style={{ padding: '32px', background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: '12px', textAlign: 'center', maxWidth: '500px' }}>
-              <div style={{ fontSize: '48px', marginBottom: '12px' }}>✅</div>
+            <div className="demo-success-box">
+              <div className="demo-success-icon">✅</div>
               <h3>Бронь подтверждена!</h3>
-              <p style={{ color: '#94a3b8', marginTop: '8px' }}>{selectedCar?.name} · {days} дней · {fmt(total)} ₽</p>
+              <p className="demo-success-detail">{selectedCar?.name} · {days} дней · {fmt(total)} ₽</p>
             </div>
           ) : (
             <form className="demo-form" onSubmit={handleBook}>
               <div>
-                <label style={{ display: 'block', fontSize: '13px', color: '#94a3b8', marginBottom: '6px' }}>Количество дней: {days}</label>
-                <input type="range" min={1} max={30} value={days} onChange={e => setDays(Number(e.target.value))} style={{ width: '100%', accentColor: '#3b82f6' }} />
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#64748b' }}>
-                  <span>1 день</span>
-                  <span>30 дней</span>
+                <label className="demo-label">Количество дней: {days}</label>
+                <input type="range" min={1} max={30} value={days} onChange={e => setDays(Number(e.target.value))} className="demo-range" />
+                <div className="demo-summary-row" style={{ fontSize: '12px' }}>
+                  <span className="demo-text-dim">1 день</span>
+                  <span className="demo-text-dim">30 дней</span>
                 </div>
               </div>
 
               {selectedCar && (
-                <div style={{ padding: '20px', background: 'rgba(59,130,246,0.1)', borderRadius: '12px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-                    <div><span style={{ color: '#94a3b8', fontSize: '13px' }}>Тариф:</span> <span style={{ fontWeight: 700 }}>{fmt(selectedCar.price)} ₽/день</span></div>
-                    {discount > 0 && <div><span style={{ color: '#94a3b8', fontSize: '13px' }}>Скидка:</span> <span style={{ fontWeight: 700, color: '#10b981' }}>-{discount * 100}%</span></div>}
-                    <div><span style={{ color: '#94a3b8', fontSize: '13px' }}>Итого:</span> <span style={{ fontWeight: 900, color: '#60a5fa', fontSize: '20px' }}>{fmt(total)} ₽</span></div>
+                <div className="demo-highlight-box-lg">
+                  <div className="demo-summary-row">
+                    <div><span className="demo-summary-label">Тариф:</span> <span className="demo-summary-value">{fmt(selectedCar.price)} ₽/день</span></div>
+                    {discount > 0 && <div><span className="demo-summary-label">Скидка:</span> <span className="demo-summary-discount">-{discount * 100}%</span></div>}
+                    <div><span className="demo-summary-label">Итого:</span> <span className="demo-summary-total">{fmt(total)} ₽</span></div>
                   </div>
                 </div>
               )}
@@ -162,9 +162,9 @@ export default function CarRentalDemo() {
               <thead><tr><th>Период</th><th>Скидка</th></tr></thead>
               <tbody>
                 <tr><td>1-2 дня</td><td>Без скидки</td></tr>
-                <tr><td>3-6 дней</td><td><span style={{ color: '#10b981', fontWeight: 700 }}>5%</span></td></tr>
-                <tr><td>7-13 дней</td><td><span style={{ color: '#10b981', fontWeight: 700 }}>10%</span></td></tr>
-                <tr><td>14+ дней</td><td><span style={{ color: '#10b981', fontWeight: 700 }}>20%</span></td></tr>
+                <tr><td>3-6 дней</td><td><span className="demo-summary-discount">5%</span></td></tr>
+                <tr><td>7-13 дней</td><td><span className="demo-summary-discount">10%</span></td></tr>
+                <tr><td>14+ дней</td><td><span className="demo-summary-discount">20%</span></td></tr>
               </tbody>
             </table>
           </div>

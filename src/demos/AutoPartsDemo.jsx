@@ -40,18 +40,18 @@ export default function AutoPartsDemo() {
   const cartTotal = cart.reduce((sum, p) => sum + p.price, 0)
 
   return (
-    <div className="demo-page">
+    <div className="demo-page theme-autoparts">
       <Link to="/" className="demo-back">← WEB CAN</Link>
       <div className="demo-banner">✨ Это демо-сайт — пример работы WEB CAN для магазинов автозапчастей<Link to="/#niches">Заказать такой же</Link></div>
 
-      <nav className="demo-nav" style={{ background: 'rgba(15,23,42,0.95)' }}>
+      <nav className="demo-nav">
         <div className="demo-nav-inner">
           <div className="demo-nav-brand">⚙️ АвтоДетали</div>
           <div className="demo-nav-links">
             <a href="#catalog">Каталог</a>
             <a href="#advantages">О нас</a>
             <a href="#contact">Контакты</a>
-            <span style={{ background: 'rgba(59,130,246,0.15)', padding: '6px 14px', borderRadius: '8px', color: '#60a5fa', fontSize: '13px', fontWeight: 700 }}>
+            <span className="demo-cart-badge">
               🛒 {cart.length} · {fmt(cartTotal)} ₽
             </span>
           </div>
@@ -99,7 +99,7 @@ export default function AutoPartsDemo() {
                   <td style={{ fontWeight: 600 }}>{p.name}</td>
                   <td>{p.brand}</td>
                   <td>{p.car}</td>
-                  <td style={{ color: '#60a5fa', fontWeight: 700 }}>{fmt(p.price)} ₽</td>
+                  <td className="demo-text-accent">{fmt(p.price)} ₽</td>
                   <td>{p.inStock ? <span className="demo-badge demo-badge-green">В наличии</span> : <span className="demo-badge demo-badge-orange">Под заказ</span>}</td>
                   <td>
                     <button
@@ -111,7 +111,7 @@ export default function AutoPartsDemo() {
                   </td>
                 </tr>
               ))}
-              {filtered.length === 0 && <tr><td colSpan={6} style={{ textAlign: 'center', color: '#64748b' }}>Ничего не найдено</td></tr>}
+              {filtered.length === 0 && <tr><td colSpan={6} className="demo-text-dim" style={{ textAlign: 'center' }}>Ничего не найдено</td></tr>}
             </tbody>
           </table>
         </div>

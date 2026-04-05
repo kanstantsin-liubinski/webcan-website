@@ -18,11 +18,11 @@ export default function DetailingDemo() {
   const filtered = activeFilter === 'Все' ? works : works.filter(w => w.tag === activeFilter)
 
   return (
-    <div className="demo-page">
+    <div className="demo-page theme-detailing">
       <Link to="/" className="demo-back">← WEB CAN</Link>
       <div className="demo-banner">✨ Это демо-сайт — пример работы WEB CAN для детейлинг-студий<Link to="/#niches">Заказать такой же</Link></div>
 
-      <nav className="demo-nav" style={{ background: 'rgba(15,23,42,0.95)' }}>
+      <nav className="demo-nav">
         <div className="demo-nav-inner">
           <div className="demo-nav-brand">💎 ProShine Studio</div>
           <div className="demo-nav-links">
@@ -59,7 +59,7 @@ export default function DetailingDemo() {
       <section id="portfolio" className="demo-section">
         <h2>Портфолио работ</h2>
         <p>Фильтруйте по типу услуги</p>
-        <div style={{ display: 'flex', gap: '10px', marginBottom: '24px', flexWrap: 'wrap' }}>
+        <div className="demo-filter-tabs">
           {filters.map(f => (
             <button
               key={f}

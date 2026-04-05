@@ -39,11 +39,11 @@ export default function CarImportDemo() {
   }, [carPrice, engineSize, year])
 
   return (
-    <div className="demo-page">
+    <div className="demo-page theme-carimport">
       <Link to="/" className="demo-back">← WEB CAN</Link>
       <div className="demo-banner">✨ Это демо-сайт — пример работы WEB CAN для компаний по пригону авто<Link to="/#niches">Заказать такой же</Link></div>
 
-      <nav className="demo-nav" style={{ background: 'rgba(15,23,42,0.95)' }}>
+      <nav className="demo-nav">
         <div className="demo-nav-inner">
           <div className="demo-nav-brand">🚘 AutoBring</div>
           <div className="demo-nav-links">
@@ -86,7 +86,7 @@ export default function CarImportDemo() {
             <h3>💰 Расчёт стоимости</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '13px', color: '#94a3b8', marginBottom: '6px' }}>Цена авто (USD)</label>
+                <label className="demo-label">Цена авто (USD)</label>
                 <input
                   className="demo-input"
                   type="number"
@@ -103,13 +103,13 @@ export default function CarImportDemo() {
                   step={500}
                   value={carPrice}
                   onChange={e => setCarPrice(e.target.value)}
-                  style={{ width: '100%', marginTop: '8px', accentColor: '#3b82f6' }}
+                  style={{ width: '100%', marginTop: '8px', accentColor: 'var(--demo-primary)' }}
                 />
               </div>
 
               <div className="demo-form-row">
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', color: '#94a3b8', marginBottom: '6px' }}>Объём двигателя</label>
+                  <label className="demo-label">Объём двигателя</label>
                   <select className="demo-select" value={engineSize} onChange={e => setEngineSize(e.target.value)}>
                     <option value="1.0-1.5">1.0 — 1.5 л</option>
                     <option value="1.6-2.0">1.6 — 2.0 л</option>
@@ -118,7 +118,7 @@ export default function CarImportDemo() {
                   </select>
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', color: '#94a3b8', marginBottom: '6px' }}>Год выпуска</label>
+                  <label className="demo-label">Год выпуска</label>
                   <select className="demo-select" value={year} onChange={e => setYear(e.target.value)}>
                     <option value="2024">2024</option>
                     <option value="2023">2023</option>

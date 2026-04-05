@@ -26,11 +26,11 @@ export default function TintingDemo() {
   const glassNames = { front2: '2 передних стекла', rear: 'Задняя полусфера', full: 'Полная тонировка', windshield: 'Лобовое стекло' }
 
   return (
-    <div className="demo-page">
+    <div className="demo-page theme-tinting">
       <Link to="/" className="demo-back">← WEB CAN</Link>
       <div className="demo-banner">✨ Это демо-сайт — пример работы WEB CAN для студий тонировки<Link to="/#niches">Заказать такой же</Link></div>
 
-      <nav className="demo-nav" style={{ background: 'rgba(15,23,42,0.95)' }}>
+      <nav className="demo-nav">
         <div className="demo-nav-inner">
           <div className="demo-nav-brand">🖤 DarkGlass</div>
           <div className="demo-nav-links">
@@ -86,7 +86,7 @@ export default function TintingDemo() {
             <h3>💲 Расчёт стоимости</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '13px', color: '#94a3b8', marginBottom: '6px' }}>Тип плёнки</label>
+                <label className="demo-label">Тип плёнки</label>
                 <select className="demo-select" value={filmType} onChange={e => setFilmType(e.target.value)}>
                   <option value="standard">Стандартная (металлизированная)</option>
                   <option value="ceramic">Керамическая (премиум)</option>
@@ -94,7 +94,7 @@ export default function TintingDemo() {
                 </select>
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '13px', color: '#94a3b8', marginBottom: '6px' }}>Зона тонировки</label>
+                <label className="demo-label">Зона тонировки</label>
                 <select className="demo-select" value={glassCount} onChange={e => setGlassCount(e.target.value)}>
                   <option value="front2">2 передних стекла</option>
                   <option value="rear">Задняя полусфера</option>

@@ -20,11 +20,11 @@ export default function TireServiceDemo() {
   const currentPrice = prices[serviceType]?.[wheelSize] || 0
 
   return (
-    <div className="demo-page">
+    <div className="demo-page theme-tireservice">
       <Link to="/" className="demo-back">← WEB CAN</Link>
       <div className="demo-banner">✨ Это демо-сайт — пример работы WEB CAN для шиномонтажей<Link to="/#niches">Заказать такой же</Link></div>
 
-      <nav className="demo-nav" style={{ background: 'rgba(15,23,42,0.95)' }}>
+      <nav className="demo-nav">
         <div className="demo-nav-inner">
           <div className="demo-nav-brand">🔩 ШинСервис</div>
           <div className="demo-nav-links">
@@ -64,16 +64,16 @@ export default function TireServiceDemo() {
           <p>Выберите услугу, размер колёс и время</p>
 
           {booked ? (
-            <div style={{ padding: '32px', background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: '12px', textAlign: 'center', maxWidth: '500px' }}>
-              <div style={{ fontSize: '48px', marginBottom: '12px' }}>✅</div>
+            <div className="demo-success-box">
+              <div className="demo-success-icon">✅</div>
               <h3>Запись подтверждена!</h3>
-              <p style={{ color: '#94a3b8', marginTop: '8px' }}>Время: {selectedSlot} · Стоимость: {currentPrice} ₽</p>
+              <p className="demo-success-detail">Время: {selectedSlot} · Стоимость: {currentPrice} ₽</p>
             </div>
           ) : (
             <form className="demo-form" onSubmit={e => { e.preventDefault(); if (selectedSlot) { setBooked(true); setTimeout(() => setBooked(false), 4000) } }}>
               <div className="demo-form-row">
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', color: '#94a3b8', marginBottom: '6px' }}>Услуга</label>
+                  <label className="demo-label">Услуга</label>
                   <select className="demo-select" value={serviceType} onChange={e => setServiceType(e.target.value)}>
                     <option value="swap">Сезонная замена (4 колеса)</option>
                     <option value="balance">Балансировка (4 колеса)</option>
@@ -81,20 +81,20 @@ export default function TireServiceDemo() {
                   </select>
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', color: '#94a3b8', marginBottom: '6px' }}>Размер колёс</label>
+                  <label className="demo-label">Размер колёс</label>
                   <select className="demo-select" value={wheelSize} onChange={e => setWheelSize(e.target.value)}>
                     {Object.keys(prices.swap).map(s => <option key={s} value={s}>{s}</option>)}
                   </select>
                 </div>
               </div>
 
-              <div style={{ padding: '16px', background: 'rgba(59,130,246,0.1)', borderRadius: '8px', textAlign: 'center' }}>
-                <span style={{ color: '#94a3b8', fontSize: '14px' }}>Предварительная стоимость: </span>
-                <span style={{ color: '#60a5fa', fontSize: '20px', fontWeight: 800 }}>{currentPrice} ₽</span>
+              <div className="demo-highlight-box">
+                <span className="demo-text-muted">Предварительная стоимость: </span>
+                <span className="demo-text-accent" style={{ fontSize: '20px' }}>{currentPrice} ₽</span>
               </div>
 
               <div>
-                <p style={{ fontSize: '14px', color: '#94a3b8', marginBottom: '12px' }}>Свободное время:</p>
+                <p className="demo-text-muted" style={{ marginBottom: '12px' }}>Свободное время:</p>
                 <div className="demo-slots">
                   {slots.map(s => (
                     <div

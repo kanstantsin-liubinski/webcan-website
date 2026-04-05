@@ -13,11 +13,11 @@ export default function AutoServiceDemo() {
   }
 
   return (
-    <div className="demo-page">
+    <div className="demo-page theme-autoservice">
       <Link to="/" className="demo-back">← WEB CAN</Link>
       <div className="demo-banner">✨ Это демо-сайт — пример работы WEB CAN для автосервисов<Link to="/#niches">Заказать такой же</Link></div>
 
-      <nav className="demo-nav" style={{ background: 'rgba(15,23,42,0.95)' }}>
+      <nav className="demo-nav">
         <div className="demo-nav-inner">
           <div className="demo-nav-brand">🔧 АвтоМастер PRO</div>
           <div className="demo-nav-links">
@@ -54,7 +54,7 @@ export default function AutoServiceDemo() {
       <section id="services" className="demo-section">
         <h2>Услуги и цены</h2>
         <p>Выберите категорию</p>
-        <div style={{ display: 'flex', gap: '10px', marginBottom: '24px', flexWrap: 'wrap' }}>
+        <div className="demo-filter-tabs">
           {Object.entries(servicesTabs).map(([key, val]) => (
             <button
               key={key}
@@ -64,12 +64,12 @@ export default function AutoServiceDemo() {
             >{val.title}</button>
           ))}
         </div>
-        <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '12px', padding: '28px' }}>
-          <h3 style={{ marginBottom: '20px', fontSize: '20px' }}>{servicesTabs[tab].title}</h3>
+        <div className="demo-tab-content">
+          <h3>{servicesTabs[tab].title}</h3>
           {servicesTabs[tab].items.map((item, i) => (
-            <div key={i} style={{ padding: '14px 0', borderBottom: i < servicesTabs[tab].items.length - 1 ? '1px solid #1e293b' : 'none', color: '#cbd5e1', fontSize: '15px', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
+            <div key={i} className="demo-tab-item">
               <span>{item.split(' — ')[0]}</span>
-              <span style={{ color: '#60a5fa', fontWeight: 700 }}>{item.split(' — ')[1]}</span>
+              <span className="demo-tab-item-price">{item.split(' — ')[1]}</span>
             </div>
           ))}
         </div>
