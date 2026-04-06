@@ -1,150 +1,188 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './demo.css'
+import './detailing.css'
 
 const works = [
-  { title: 'BMW X5 — полировка', img: 'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=600&q=80', tag: 'Полировка' },
-  { title: 'Mercedes GLE — керамика', img: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=80', tag: 'Керамика' },
-  { title: 'Audi A7 — PPF плёнка', img: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80', tag: 'Плёнка' },
-  { title: 'Porsche 911 — детейлинг', img: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f133c?w=600&q=80', tag: 'Детейлинг' },
-  { title: 'Toyota Camry — химчистка', img: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0afa?w=600&q=80', tag: 'Химчистка' },
-  { title: 'Range Rover — нанокерамика', img: 'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=600&q=80', tag: 'Керамика' },
+  { title: 'BMW X5 — полировка', img: 'https://images.unsplash.com/photo-1542362567-b07e54358753?w=600&q=80', tag: 'Полировка' },
+  { title: 'Mercedes GLE — керамика', img: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=600&q=80', tag: 'Керамика' },
+  { title: 'Audi A7 — PPF плёнка', img: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=600&q=80', tag: 'Плёнка' },
+  { title: 'Porsche 911 — детейлинг', img: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80', tag: 'Детейлинг' },
+  { title: 'Toyota Camry — химчистка', img: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&q=80', tag: 'Химчистка' },
+  { title: 'Range Rover — нанокерамика', img: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=80', tag: 'Керамика' },
 ]
 
-const filters = ['Все', 'Полировка', 'Керамика', 'Плёнка', 'Детейлинг', 'Химчистка']
+const services = [
+  { icon: '✨', title: 'Полировка', desc: 'Восстановительная и защитная полировка кузова. Удаление царапин, голограмм и матовости.' },
+  { icon: '🛡️', title: 'Нанокерамика', desc: 'Керамическое покрытие с гидрофобным эффектом. Защита ЛКП до 5 лет.' },
+  { icon: '🎞️', title: 'PPF плёнка', desc: 'Антигравийная полиуретановая плёнка. Невидимая защита от сколов и царапин.' },
+  { icon: '🧽', title: 'Химчистка', desc: 'Глубокая химчистка салона с обработкой кожи, пластика и текстиля.' },
+  { icon: '💧', title: 'Антидождь', desc: 'Обработка стёкол и зеркал нанососотавом для идеальной видимости.' },
+  { icon: '🏁', title: 'Предпродажная подготовка', desc: 'Комплексная подготовка автомобиля к продаже: полировка, химчистка, мелкий ремонт.' },
+]
+
+const prices = [
+  { name: 'Полировка кузова', sedan: 'от 450 BYN', suv: 'от 550 BYN', full: 'от 700 BYN' },
+  { name: 'Нанокерамика', sedan: 'от 750 BYN', suv: 'от 900 BYN', full: 'от 1 200 BYN' },
+  { name: 'PPF плёнка (перед)', sedan: 'от 1 100 BYN', suv: 'от 1 300 BYN', full: 'от 1 600 BYN' },
+  { name: 'Химчистка салона', sedan: 'от 250 BYN', suv: 'от 300 BYN', full: 'от 400 BYN' },
+  { name: 'Антидождь', sedan: 'от 90 BYN', suv: 'от 110 BYN', full: 'от 130 BYN' },
+  { name: 'Предпродажная подготовка', sedan: 'от 600 BYN', suv: 'от 750 BYN', full: 'от 1 000 BYN' },
+]
+
+const tags = ['Все', 'Полировка', 'Керамика', 'Плёнка', 'Детейлинг', 'Химчистка']
 
 export default function DetailingDemo() {
-  const [activeFilter, setActiveFilter] = useState('Все')
-  const filtered = activeFilter === 'Все' ? works : works.filter(w => w.tag === activeFilter)
+  const [filter, setFilter] = useState('Все')
+  const filtered = filter === 'Все' ? works : works.filter(w => w.tag === filter)
 
   return (
-    <div className="demo-page theme-detailing">
+    <div className="dt">
       <Link to="/" className="demo-back">← WEB CAN</Link>
-      <div className="demo-banner">✨ Это демо-сайт — пример работы WEB CAN для детейлинг-студий<Link to="/#niches">Заказать такой же</Link></div>
 
-      <nav className="demo-nav">
-        <div className="demo-nav-inner">
-          <div className="demo-nav-brand">💎 ProShine Studio</div>
-          <div className="demo-nav-links">
-            <a href="#portfolio">Работы</a>
-            <a href="#services">Услуги</a>
-            <a href="#prices">Цены</a>
-            <a href="#contact">Контакты</a>
-          </div>
-        </div>
+      {/* Nav */}
+      <nav className="dt-nav">
+        <div className="dt-nav-brand">💎 ProShine Studio</div>
+        <ul className="dt-nav-links">
+          <li><a href="#portfolio">Портфолио</a></li>
+          <li><a href="#services">Услуги</a></li>
+          <li><a href="#prices">Цены</a></li>
+          <li><a href="#contact">Контакты</a></li>
+        </ul>
+        <a href="#contact"><button className="dt-nav-cta">Записаться</button></a>
       </nav>
 
-      <section className="demo-hero">
-        <div className="demo-hero-bg" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1601362840469-51e4d8d58785?w=1200&q=80)' }}></div>
-        <div className="demo-hero-overlay"></div>
-        <div className="demo-hero-content">
-          <h1>Детейлинг премиум-класса</h1>
-          <p>Полировка, керамика, PPF, химчистка — каждый автомобиль получает индивидуальный подход и result-ориентированный уход.</p>
-          <div className="demo-hero-buttons">
-            <a href="#portfolio" className="demo-btn demo-btn-primary">Наши работы</a>
-            <a href="#prices" className="demo-btn demo-btn-secondary">Прайс-лист</a>
+      {/* Hero */}
+      <section className="dt-hero">
+        <div className="dt-hero-content">
+          <h1>Премиальный <span>детейлинг</span> вашего автомобиля</h1>
+          <p>Профессиональный уход, восстановление и защита кузова. Используем только сертифицированные составы мирового класса.</p>
+          <div className="dt-hero-btns">
+            <a href="#contact"><button className="dt-btn-gold">Записаться</button></a>
+            <a href="#portfolio"><button className="dt-btn-outline">Наши работы</button></a>
           </div>
         </div>
       </section>
 
-      <div className="demo-section">
-        <div className="demo-stats">
-          <div><div className="demo-stat-value">800+</div><div className="demo-stat-label">Авто обработано</div></div>
-          <div><div className="demo-stat-value">5</div><div className="demo-stat-label">Лет опыта</div></div>
-          <div><div className="demo-stat-value">4.9</div><div className="demo-stat-label">Рейтинг</div></div>
-          <div><div className="demo-stat-value">100%</div><div className="demo-stat-label">Гарантия качества</div></div>
+      {/* Stats */}
+      <section className="dt-stats">
+        <div className="dt-stat">
+          <div className="dt-stat-val">800+</div>
+          <div className="dt-stat-lbl">Авто обработано</div>
         </div>
-      </div>
+        <div className="dt-stat">
+          <div className="dt-stat-val">5 лет</div>
+          <div className="dt-stat-lbl">Опыта работы</div>
+        </div>
+        <div className="dt-stat">
+          <div className="dt-stat-val">4.9</div>
+          <div className="dt-stat-lbl">Средний рейтинг</div>
+        </div>
+        <div className="dt-stat">
+          <div className="dt-stat-val">100%</div>
+          <div className="dt-stat-lbl">Гарантия качества</div>
+        </div>
+      </section>
 
-      <section id="portfolio" className="demo-section">
-        <h2>Портфолио работ</h2>
-        <p>Фильтруйте по типу услуги</p>
-        <div className="demo-filter-tabs">
-          {filters.map(f => (
-            <button
-              key={f}
-              className={`demo-btn ${activeFilter === f ? 'demo-btn-primary' : 'demo-btn-secondary'}`}
-              style={{ padding: '8px 20px', fontSize: '13px' }}
-              onClick={() => setActiveFilter(f)}
-            >{f}</button>
+      {/* Portfolio */}
+      <section className="dt-section" id="portfolio">
+        <h2 className="dt-section-title">Наши работы</h2>
+        <p className="dt-section-sub">Результаты, которые говорят сами за себя</p>
+        <div className="dt-tabs">
+          {tags.map(t => (
+            <button key={t} className={`dt-tab${filter === t ? ' active' : ''}`} onClick={() => setFilter(t)}>{t}</button>
           ))}
         </div>
-        <div className="demo-gallery">
-          {filtered.map(w => (
-            <div className="demo-gallery-item" key={w.title}>
-              <img src={w.img} alt={w.title} />
-              <div className="demo-gallery-overlay"><span>{w.title}</span></div>
+        <div className="dt-gallery">
+          {filtered.map((w, i) => (
+            <div className="dt-gallery-item" key={i}>
+              <img src={w.img} alt={w.title} loading="lazy" />
+              <div className="dt-gallery-overlay"><span>{w.title}</span></div>
             </div>
           ))}
         </div>
       </section>
 
-      <section id="services" className="demo-section-full demo-section-dark">
-        <div className="demo-section-inner">
-          <h2>Услуги</h2>
-          <p>Полный спектр детейлинг-услуг</p>
-          <div className="demo-cards">
-            <div className="demo-card"><div className="demo-card-icon">✨</div><h3>Полировка кузова</h3><p>Удаление царапин, голограмм, восстановление заводского блеска. Одно- и многоэтапная.</p></div>
-            <div className="demo-card"><div className="demo-card-icon">🛡️</div><h3>Нанокерамика</h3><p>Защита кузова на 2-5 лет. Гидрофобный эффект, защита от химии и UV-лучей.</p></div>
-            <div className="demo-card"><div className="demo-card-icon">🎞️</div><h3>PPF плёнка</h3><p>Антигравийная полиуретановая плёнка — невидимая защита от сколов и царапин.</p></div>
-            <div className="demo-card"><div className="demo-card-icon">🧹</div><h3>Химчистка салона</h3><p>Глубокая очистка кожи, ткани, алькантары. Озонирование и удаление запахов.</p></div>
-            <div className="demo-card"><div className="demo-card-icon">💧</div><h3>Антидождь</h3><p>Обработка стёкол гидрофобным составом. Улучшение видимости в дождь.</p></div>
-            <div className="demo-card"><div className="demo-card-icon">🔧</div><h3>Предпродажная подготовка</h3><p>Комплексная подготовка для продажи: мойка, полировка, химчистка, устранение дефектов.</p></div>
-          </div>
+      {/* Services */}
+      <section className="dt-section" id="services" style={{ background: 'var(--dt-bg2)' }}>
+        <h2 className="dt-section-title">Наши услуги</h2>
+        <p className="dt-section-sub">Полный спектр услуг по уходу за автомобилем</p>
+        <div className="dt-services">
+          {services.map((s, i) => (
+            <div className="dt-service" key={i}>
+              <div className="dt-service-icon">{s.icon}</div>
+              <h3>{s.title}</h3>
+              <p>{s.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      <section id="prices" className="demo-section">
-        <h2>Прайс-лист</h2>
-        <p>Цены зависят от класса авто</p>
-        <div className="demo-table-wrap">
-          <table className="demo-table">
+      {/* Prices */}
+      <section className="dt-section" id="prices">
+        <h2 className="dt-section-title">Стоимость услуг</h2>
+        <p className="dt-section-sub">Прозрачные цены без скрытых доплат</p>
+        <div className="dt-table-wrap">
+          <table className="dt-table">
             <thead>
-              <tr><th>Услуга</th><th>Седан</th><th>Кроссовер</th><th>Большой SUV</th></tr>
+              <tr>
+                <th>Услуга</th>
+                <th>Седан</th>
+                <th>Кроссовер</th>
+                <th>Большой SUV</th>
+              </tr>
             </thead>
             <tbody>
-              <tr><td>Полировка 1-этап</td><td>8 000 ₽</td><td>10 000 ₽</td><td>13 000 ₽</td></tr>
-              <tr><td>Полировка 3-этап</td><td>15 000 ₽</td><td>18 000 ₽</td><td>22 000 ₽</td></tr>
-              <tr><td>Нанокерамика</td><td>20 000 ₽</td><td>25 000 ₽</td><td>30 000 ₽</td></tr>
-              <tr><td>PPF капот + бампер</td><td>25 000 ₽</td><td>30 000 ₽</td><td>35 000 ₽</td></tr>
-              <tr><td>PPF полный кузов</td><td>150 000 ₽</td><td>180 000 ₽</td><td>220 000 ₽</td></tr>
-              <tr><td>Химчистка салона</td><td>6 000 ₽</td><td>7 500 ₽</td><td>9 000 ₽</td></tr>
+              {prices.map((p, i) => (
+                <tr key={i}>
+                  <td>{p.name}</td>
+                  <td>{p.sedan}</td>
+                  <td>{p.suv}</td>
+                  <td>{p.full}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </section>
 
-      <section id="contact" className="demo-section-full demo-section-dark">
-        <div className="demo-section-inner">
-          <h2>Записаться</h2>
-          <p>Оставьте заявку — перезвоним в течение 30 минут</p>
-          <form className="demo-form" onSubmit={e => e.preventDefault()}>
-            <div className="demo-form-row">
-              <input className="demo-input" placeholder="Имя" />
-              <input className="demo-input" placeholder="Телефон" />
-            </div>
-            <select className="demo-select">
+      {/* Contact */}
+      <section className="dt-section" id="contact" style={{ background: 'var(--dt-bg2)' }}>
+        <h2 className="dt-section-title">Запись на детейлинг</h2>
+        <p className="dt-section-sub">Оставьте заявку — мы свяжемся в течение 30 минут</p>
+        <div className="dt-form-wrap">
+          <form className="dt-form" onSubmit={e => e.preventDefault()}>
+            <input className="dt-input" type="text" placeholder="Ваше имя" required />
+            <input className="dt-input" type="tel" placeholder="Телефон" required />
+            <select className="dt-select" defaultValue="">
+              <option value="" disabled>Выберите услугу</option>
               <option>Полировка</option>
               <option>Нанокерамика</option>
               <option>PPF плёнка</option>
               <option>Химчистка</option>
-              <option>Другое</option>
+              <option>Антидождь</option>
+              <option>Предпродажная подготовка</option>
             </select>
-            <textarea className="demo-input" placeholder="Марка авто и пожелания" rows={3} style={{ resize: 'vertical' }}></textarea>
-            <button className="demo-btn demo-btn-primary" type="submit">Отправить заявку</button>
+            <textarea className="dt-textarea" placeholder="Марка и модель авто" />
+            <button className="dt-btn-gold" type="submit">Отправить заявку</button>
           </form>
         </div>
       </section>
 
-      <section className="demo-cta">
-        <h2>Первый визит — скидка 15%</h2>
-        <p>Защитите и преобразите свой автомобиль</p>
-        <a href="#contact" className="demo-btn demo-btn-accent">Записаться</a>
+      {/* CTA */}
+      <section className="dt-cta">
+        <h2>Готовы преобразить ваш автомобиль?</h2>
+        <p>Запишитесь на бесплатную консультацию уже сегодня</p>
+        <a href="#contact"><button className="dt-cta-btn">Связаться с нами</button></a>
       </section>
 
-      <footer className="demo-footer">
-        <p>© 2026 ProShine Studio — Демо-сайт от WEB CAN</p>
-      </footer>
+      {/* Footer */}
+      <footer className="dt-footer">© 2026 ProShine Studio — Демо-сайт от WEB CAN</footer>
+
+      <div className="demo-banner">
+        ✨ Это демо-сайт — пример работы WEB CAN для детейлинг-студий
+        <Link to="/#niches">Заказать такой же</Link>
+      </div>
     </div>
   )
 }

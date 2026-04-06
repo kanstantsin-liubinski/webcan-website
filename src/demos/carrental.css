@@ -1,0 +1,817 @@
+/* ==================== CAR RENTAL — WARM LIGHT ==================== */
+
+.cr {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #fffbf0;
+  color: #292524;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* --- NAV --- */
+.cr-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 72px;
+  background: #fff;
+  box-shadow: 0 2px 20px rgba(180, 83, 9, 0.08);
+}
+
+.cr-nav-brand {
+  font-size: 24px;
+  font-weight: 800;
+  color: #b45309;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.cr-nav-links {
+  display: flex;
+  gap: 32px;
+}
+
+.cr-nav-links a {
+  color: #78716c;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  transition: color 0.3s;
+  cursor: pointer;
+}
+
+.cr-nav-links a:hover,
+.cr-nav-links a.active {
+  color: #f59e0b;
+}
+
+/* --- HERO --- */
+.cr-hero {
+  padding: 160px 24px 100px;
+  text-align: center;
+  background: linear-gradient(135deg, #fffbeb, #fef3c7, #fde68a);
+}
+
+.cr-hero-tag {
+  display: inline-block;
+  padding: 8px 20px;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #b45309;
+  margin-bottom: 28px;
+}
+
+.cr-hero h1 {
+  font-size: 52px;
+  font-weight: 900;
+  line-height: 1.1;
+  color: #292524;
+  margin: 0 0 24px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  letter-spacing: -1px;
+}
+
+.cr-hero-sub {
+  font-size: 20px;
+  color: #78716c;
+  margin: 0 0 40px;
+  font-weight: 500;
+}
+
+.cr-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 44px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 8px 30px rgba(245, 158, 11, 0.35);
+}
+
+.cr-hero-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(245, 158, 11, 0.45);
+}
+
+/* --- STATS --- */
+.cr-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  padding: 0;
+}
+
+.cr-stat {
+  padding: 36px 24px;
+  text-align: center;
+  border-right: 1px solid rgba(180, 83, 9, 0.1);
+}
+
+.cr-stat:last-child {
+  border-right: none;
+}
+
+.cr-stat-num {
+  font-size: 32px;
+  font-weight: 900;
+  color: #b45309;
+  margin-bottom: 4px;
+}
+
+.cr-stat-label {
+  font-size: 14px;
+  color: #78716c;
+  font-weight: 600;
+}
+
+/* --- SECTION LAYOUT --- */
+.cr-section {
+  padding: 80px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cr-section-title {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 900;
+  color: #292524;
+  margin: 0 0 12px;
+  letter-spacing: -0.5px;
+}
+
+.cr-section-sub {
+  text-align: center;
+  font-size: 17px;
+  color: #78716c;
+  margin: 0 0 48px;
+  font-weight: 500;
+}
+
+/* --- CATEGORY FILTER --- */
+.cr-filters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.cr-filter-pill {
+  padding: 10px 24px;
+  border-radius: 50px;
+  border: 2px solid #fed7aa;
+  background: #fff;
+  color: #78716c;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.cr-filter-pill:hover {
+  border-color: #f59e0b;
+  color: #b45309;
+}
+
+.cr-filter-pill.active {
+  background: #f59e0b;
+  border-color: #f59e0b;
+  color: #fff;
+}
+
+/* --- FLEET GRID --- */
+.cr-fleet {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.cr-car {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(180, 83, 9, 0.06);
+  border: 1px solid #fed7aa;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.cr-car:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(180, 83, 9, 0.12);
+}
+
+.cr-car-img {
+  height: 200px;
+  background: linear-gradient(135deg, #fef3c7, #fed7aa);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+  position: relative;
+}
+
+.cr-car-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 5px 14px;
+  background: rgba(245, 158, 11, 0.9);
+  color: #fff;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cr-car-year {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 5px 12px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #78716c;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cr-car-body {
+  padding: 24px;
+}
+
+.cr-car-name {
+  font-size: 20px;
+  font-weight: 800;
+  color: #292524;
+  margin: 0 0 16px;
+}
+
+.cr-car-specs {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.cr-car-spec {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #78716c;
+  font-weight: 500;
+}
+
+.cr-car-spec-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fffbeb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.cr-car-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid #fef3c7;
+}
+
+.cr-car-price {
+  font-size: 26px;
+  font-weight: 900;
+  color: #b45309;
+}
+
+.cr-car-price span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #78716c;
+}
+
+.cr-car-book {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cr-car-book:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.35);
+}
+
+/* --- BOOKING --- */
+.cr-booking {
+  padding: 80px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cr-booking-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.cr-booking-form {
+  background: #fff;
+  border: 1px solid #fed7aa;
+  border-radius: 16px;
+  padding: 36px;
+  box-shadow: 0 4px 24px rgba(180, 83, 9, 0.06);
+}
+
+.cr-form-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #292524;
+  margin: 0 0 24px;
+}
+
+.cr-form-group {
+  margin-bottom: 20px;
+}
+
+.cr-form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #78716c;
+  margin-bottom: 8px;
+}
+
+.cr-form-group input[type="text"],
+.cr-form-group input[type="tel"] {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #fed7aa;
+  border-radius: 12px;
+  font-size: 15px;
+  color: #292524;
+  background: #fffbeb;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.cr-form-group input[type="text"]:focus,
+.cr-form-group input[type="tel"]:focus {
+  outline: none;
+  border-color: #f59e0b;
+}
+
+.cr-selected-car {
+  padding: 16px;
+  background: #fffbeb;
+  border: 2px solid #fde68a;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.cr-selected-car-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: #b45309;
+  margin-bottom: 4px;
+}
+
+.cr-selected-car-price {
+  font-size: 14px;
+  color: #78716c;
+}
+
+.cr-no-car {
+  padding: 16px;
+  background: #fef3c7;
+  border-radius: 12px;
+  text-align: center;
+  color: #78716c;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.cr-days-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.cr-days-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: #b45309;
+}
+
+.cr-slider {
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 8px;
+  background: #fef3c7;
+  outline: none;
+}
+
+.cr-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+}
+
+.cr-slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+}
+
+.cr-discounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+
+.cr-discount-pill {
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  background: #fef3c7;
+  color: #78716c;
+  border: 1px solid #fde68a;
+  transition: all 0.3s;
+}
+
+.cr-discount-pill.active {
+  background: #16a34a;
+  color: #fff;
+  border-color: #16a34a;
+}
+
+.cr-total {
+  padding: 20px;
+  background: #fffbeb;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.cr-total-label {
+  font-size: 14px;
+  color: #78716c;
+  margin-bottom: 4px;
+}
+
+.cr-total-amount {
+  font-size: 36px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #f59e0b, #b45309);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cr-total-detail {
+  font-size: 13px;
+  color: #78716c;
+  margin-top: 4px;
+}
+
+.cr-submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cr-submit-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.35);
+}
+
+/* --- BOOKING CONDITIONS SIDEBAR --- */
+.cr-booking-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cr-info-card {
+  background: #fff;
+  border: 1px solid #fed7aa;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 4px 24px rgba(180, 83, 9, 0.06);
+}
+
+.cr-info-card-icon {
+  width: 48px;
+  height: 48px;
+  background: #fffbeb;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
+.cr-info-card h4 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #292524;
+  margin: 0 0 8px;
+}
+
+.cr-info-card p {
+  font-size: 14px;
+  color: #78716c;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* --- CONDITIONS --- */
+.cr-conditions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.cr-condition {
+  background: #fff;
+  border: 1px solid #fed7aa;
+  border-radius: 16px;
+  padding: 32px 28px;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(180, 83, 9, 0.06);
+  transition: transform 0.3s;
+}
+
+.cr-condition:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(180, 83, 9, 0.12);
+  border-color: #f59e0b;
+}
+
+.cr-condition-icon {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin: 0 auto 20px;
+}
+
+.cr-condition h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #292524;
+  margin: 0 0 8px;
+}
+
+.cr-condition p {
+  font-size: 14px;
+  color: #78716c;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* --- CTA --- */
+.cr-cta {
+  background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
+  padding: 80px 48px;
+  text-align: center;
+}
+
+.cr-cta h2 {
+  font-size: 40px;
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 16px;
+}
+
+.cr-cta p {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 36px;
+}
+
+.cr-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 44px;
+  background: #fffbeb;
+  color: #b45309;
+  border: none;
+  border-radius: 50px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.cr-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+}
+
+/* --- FOOTER --- */
+.cr-footer {
+  background: #fffbeb;
+  padding: 32px 48px;
+  text-align: center;
+  font-size: 14px;
+  color: #78716c;
+  border-top: 1px solid #fed7aa;
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 1024px) {
+  .cr-fleet {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .cr-hero h1 {
+    font-size: 42px;
+  }
+
+  .cr-nav {
+    padding: 0 24px;
+  }
+
+  .cr-section {
+    padding: 60px 24px;
+  }
+
+  .cr-booking {
+    padding: 60px 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cr-nav {
+    padding: 0 16px;
+    height: 60px;
+  }
+
+  .cr-nav-brand {
+    font-size: 20px;
+  }
+
+  .cr-nav-links {
+    gap: 16px;
+  }
+
+  .cr-nav-links a {
+    font-size: 13px;
+  }
+
+  .cr-hero {
+    padding: 120px 16px 60px;
+  }
+
+  .cr-hero h1 {
+    font-size: 32px;
+  }
+
+  .cr-hero-sub {
+    font-size: 16px;
+  }
+
+  .cr-hero-cta {
+    padding: 14px 32px;
+    font-size: 15px;
+  }
+
+  .cr-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cr-stat {
+    border-right: none;
+    border-bottom: 1px solid rgba(180, 83, 9, 0.1);
+  }
+
+  .cr-fleet {
+    grid-template-columns: 1fr;
+  }
+
+  .cr-booking-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cr-conditions {
+    grid-template-columns: 1fr;
+  }
+
+  .cr-section {
+    padding: 48px 16px;
+  }
+
+  .cr-booking {
+    padding: 48px 16px;
+  }
+
+  .cr-section-title {
+    font-size: 28px;
+  }
+
+  .cr-cta {
+    padding: 60px 16px;
+  }
+
+  .cr-cta h2 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cr-nav-links {
+    display: none;
+  }
+
+  .cr-hero h1 {
+    font-size: 26px;
+  }
+
+  .cr-hero-sub {
+    font-size: 14px;
+  }
+
+  .cr-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .cr-car-specs {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .cr-car-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .cr-car-book {
+    width: 100%;
+    text-align: center;
+  }
+
+  .cr-total-amount {
+    font-size: 28px;
+  }
+
+  .cr-footer {
+    padding: 24px 16px;
+  }
+}

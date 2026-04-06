@@ -1,130 +1,185 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './demo.css'
+import './autoservice.css'
+
+const servicesTabs = {
+  diag: { title: 'Диагностика', items: ['Компьютерная диагностика — 45 BYN', 'Диагностика ходовой — 30 BYN', 'Проверка перед покупкой — 100 BYN', 'Считывание ошибок — 15 BYN'] },
+  engine: { title: 'Двигатель', items: ['Замена масла — от 60 BYN', 'Замена ремня ГРМ — от 240 BYN', 'Ремонт турбины — от 450 BYN', 'Замена прокладки ГБЦ — от 350 BYN'] },
+  suspension: { title: 'Ходовая', items: ['Замена амортизаторов — от 90 BYN', 'Замена сайлентблоков — от 75 BYN', 'Развал-схождение — 60 BYN', 'Замена ступичного подшипника — от 120 BYN'] },
+  brakes: { title: 'Тормоза', items: ['Замена колодок — от 60 BYN', 'Замена дисков — от 120 BYN', 'Прокачка тормозов — 45 BYN', 'Замена суппорта — от 150 BYN'] },
+}
+
+const reviews = [
+  { stars: 5, text: 'Приехал на диагностику — нашли проблему за 20 минут. Ремонт сделали в тот же день. Честные цены, рекомендую!', author: 'Алексей М.', car: 'Toyota Camry 2019' },
+  { stars: 5, text: 'Менял ремень ГРМ. Всё сделали качественно, дали гарантию на год. Видеоотчёт прислали в WhatsApp — очень удобно.', author: 'Дмитрий К.', car: 'Volkswagen Tiguan 2020' },
+  { stars: 5, text: 'Обслуживаю машину только здесь уже 3 года. Мастера знают своё дело, запчасти всегда оригинальные.', author: 'Сергей В.', car: 'BMW X3 2018' },
+  { stars: 4, text: 'Делали развал-схождение и замену колодок. Всё чётко по срокам. Единственное — пришлось подождать запчасти 1 день.', author: 'Ирина Л.', car: 'Kia Sportage 2021' },
+]
+
+const advantages = [
+  { icon: '📹', title: 'Видеоотчёт', desc: 'Снимаем процесс ремонта на видео и отправляем вам' },
+  { icon: '💰', title: 'Прозрачные цены', desc: 'Фиксированная стоимость. Никаких скрытых доплат' },
+  { icon: '🛡️', title: 'Гарантия 1 год', desc: 'Даём гарантию на все выполненные работы' },
+  { icon: '🚗', title: 'Подменное авто', desc: 'Предоставляем подменный автомобиль на время ремонта' },
+  { icon: '⚙️', title: 'Оригинальные запчасти', desc: 'Работаем только с проверенными поставщиками' },
+  { icon: '⏱️', title: 'Точные сроки', desc: 'Называем сроки и соблюдаем их. Без задержек' },
+]
 
 export default function AutoServiceDemo() {
-  const [tab, setTab] = useState('diag')
-
-  const servicesTabs = {
-    diag: { title: 'Диагностика', items: ['Компьютерная диагностика — 1 500 ₽', 'Диагностика ходовой — 1 000 ₽', 'Проверка перед покупкой — 3 500 ₽', 'Считывание ошибок — 500 ₽'] },
-    engine: { title: 'Двигатель', items: ['Замена масла — от 2 000 ₽', 'Замена ремня ГРМ — от 8 000 ₽', 'Ремонт турбины — от 15 000 ₽', 'Замена прокладки ГБЦ — от 12 000 ₽'] },
-    suspension: { title: 'Ходовая', items: ['Замена амортизаторов — от 3 000 ₽', 'Замена сайлентблоков — от 2 500 ₽', 'Развал-схождение — 2 000 ₽', 'Замена ступичного подшипника — от 4 000 ₽'] },
-    brakes: { title: 'Тормоза', items: ['Замена колодок — от 2 000 ₽', 'Замена дисков — от 4 000 ₽', 'Прокачка тормозов — 1 500 ₽', 'Замена суппорта — от 5 000 ₽'] },
-  }
+  const [activeTab, setActiveTab] = useState('diag')
 
   return (
-    <div className="demo-page theme-autoservice">
+    <div className="as">
       <Link to="/" className="demo-back">← WEB CAN</Link>
       <div className="demo-banner">✨ Это демо-сайт — пример работы WEB CAN для автосервисов<Link to="/#niches">Заказать такой же</Link></div>
 
-      <nav className="demo-nav">
-        <div className="demo-nav-inner">
-          <div className="demo-nav-brand">🔧 АвтоМастер PRO</div>
-          <div className="demo-nav-links">
+      <nav className="as-nav">
+        <div className="as-nav-inner">
+          <div className="as-nav-brand">🔧 АвтоМастер PRO</div>
+          <div className="as-nav-links">
             <a href="#services">Услуги</a>
-            <a href="#advantages">Почему мы</a>
+            <a href="#advantages">Преимущества</a>
             <a href="#reviews">Отзывы</a>
             <a href="#contact">Контакты</a>
           </div>
         </div>
       </nav>
 
-      <section className="demo-hero">
-        <div className="demo-hero-bg" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1200&q=80)' }}></div>
-        <div className="demo-hero-overlay"></div>
-        <div className="demo-hero-content">
-          <h1>Ремонт, которому доверяют</h1>
-          <p>Честный автосервис с прозрачными ценами. Гарантия на все работы. Оригинальные запчасти и сертифицированные мастера.</p>
-          <div className="demo-hero-buttons">
-            <a href="#contact" className="demo-btn demo-btn-primary">Записаться на ремонт</a>
-            <a href="#services" className="demo-btn demo-btn-secondary">Смотреть услуги</a>
+      <section className="as-hero">
+        <div className="as-hero-content">
+          <h1>Ремонт авто<br/>без сюрпризов</h1>
+          <p>Профессиональный автосервис с гарантией. Диагностика, ремонт двигателя, ходовой и тормозной системы. Честные цены и точные сроки.</p>
+          <div className="as-hero-btns">
+            <a href="#contact" className="as-btn as-btn-primary">Записаться на ремонт</a>
+            <a href="#services" className="as-btn as-btn-outline">Смотреть цены</a>
           </div>
         </div>
       </section>
 
-      <div className="demo-section">
-        <div className="demo-stats">
-          <div><div className="demo-stat-value">8</div><div className="demo-stat-label">Лет на рынке</div></div>
-          <div><div className="demo-stat-value">15K+</div><div className="demo-stat-label">Авто отремонтировано</div></div>
-          <div><div className="demo-stat-value">12</div><div className="demo-stat-label">Мастеров в команде</div></div>
-          <div><div className="demo-stat-value">1 год</div><div className="demo-stat-label">Гарантия на работы</div></div>
-        </div>
+      <div className="as-stats">
+        <div className="as-stat"><div className="as-stat-val">8 лет</div><div className="as-stat-lbl">На рынке</div></div>
+        <div className="as-stat"><div className="as-stat-val">15K+</div><div className="as-stat-lbl">Авто обслужено</div></div>
+        <div className="as-stat"><div className="as-stat-val">12</div><div className="as-stat-lbl">Мастеров</div></div>
+        <div className="as-stat"><div className="as-stat-val">1 год</div><div className="as-stat-lbl">Гарантия</div></div>
       </div>
 
-      <section id="services" className="demo-section">
+      <div className="as-hazard"></div>
+
+      <section id="services" className="as-section">
+        <div className="as-section-label">Наши услуги</div>
         <h2>Услуги и цены</h2>
-        <p>Выберите категорию</p>
-        <div className="demo-filter-tabs">
-          {Object.entries(servicesTabs).map(([key, val]) => (
+        <p>Выберите категорию, чтобы посмотреть стоимость работ</p>
+
+        <div className="as-tabs-nav">
+          {Object.keys(servicesTabs).map(key => (
             <button
               key={key}
-              className={`demo-btn ${tab === key ? 'demo-btn-primary' : 'demo-btn-secondary'}`}
-              style={{ padding: '10px 24px', fontSize: '14px' }}
-              onClick={() => setTab(key)}
-            >{val.title}</button>
+              className={`as-tab-btn${activeTab === key ? ' active' : ''}`}
+              onClick={() => setActiveTab(key)}
+            >
+              {servicesTabs[key].title}
+            </button>
           ))}
         </div>
-        <div className="demo-tab-content">
-          <h3>{servicesTabs[tab].title}</h3>
-          {servicesTabs[tab].items.map((item, i) => (
-            <div key={i} className="demo-tab-item">
-              <span>{item.split(' — ')[0]}</span>
-              <span className="demo-tab-item-price">{item.split(' — ')[1]}</span>
+
+        <div className="as-tab-content">
+          <div className="as-tab-title">{servicesTabs[activeTab].title}</div>
+          <ul className="as-service-list">
+            {servicesTabs[activeTab].items.map((item, i) => {
+              const parts = item.split(' — ')
+              return (
+                <li key={i} className="as-service-item">
+                  <span className="as-service-name">{parts[0]}</span>
+                  <span className="as-service-price">{parts[1]}</span>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      </section>
+
+      <section id="advantages" className="as-section">
+        <div className="as-section-label">Почему мы</div>
+        <h2>Наши преимущества</h2>
+        <p>Работаем на совесть и дорожим каждым клиентом</p>
+
+        <div className="as-advantages">
+          {advantages.map((a, i) => (
+            <div key={i} className="as-advantage">
+              <div className="as-advantage-icon">{a.icon}</div>
+              <div>
+                <h4>{a.title}</h4>
+                <p>{a.desc}</p>
+              </div>
             </div>
           ))}
         </div>
       </section>
 
-      <section id="advantages" className="demo-section-full demo-section-dark">
-        <div className="demo-section-inner">
-          <h2>Почему нам доверяют</h2>
-          <p>Каждая деталь работает на ваше спокойствие</p>
-          <div className="demo-advantages">
-            <div className="demo-advantage"><div className="demo-advantage-icon">📹</div><div><h4>Видеоотчёт</h4><p>Снимаем весь процесс ремонта и отправляем вам в мессенджер</p></div></div>
-            <div className="demo-advantage"><div className="demo-advantage-icon">📋</div><div><h4>Прозрачные цены</h4><p>Полная смета до начала работ. Без скрытых доплат</p></div></div>
-            <div className="demo-advantage"><div className="demo-advantage-icon">🛡️</div><div><h4>Гарантия 1 год</h4><p>Письменная гарантия на все выполненные работы</p></div></div>
-            <div className="demo-advantage"><div className="demo-advantage-icon">🚗</div><div><h4>Подменное авто</h4><p>Бесплатное подменное авто на время ремонта свыше 2 дней</p></div></div>
-            <div className="demo-advantage"><div className="demo-advantage-icon">⚙️</div><div><h4>Оригинальные запчасти</h4><p>Работаем только с проверенными поставщиками OEM-деталей</p></div></div>
-            <div className="demo-advantage"><div className="demo-advantage-icon">⏰</div><div><h4>Точные сроки</h4><p>Называем срок — выполняем. При задержке — скидка 10%</p></div></div>
-          </div>
-        </div>
-      </section>
+      <div className="as-hazard"></div>
 
-      <section id="reviews" className="demo-section">
-        <h2>Отзывы</h2>
+      <section id="reviews" className="as-section">
+        <div className="as-section-label">Отзывы клиентов</div>
+        <h2>Что говорят о нас</h2>
         <p>Реальные отзывы наших клиентов</p>
-        <div className="demo-reviews">
-          <div className="demo-review"><div className="demo-review-stars">★★★★★</div><p>"Менял ГРМ на Audi A4 — ребята сделали за день, всё показали на видео. Цена как договаривались."</p><div className="demo-review-author">— Александр К.</div></div>
-          <div className="demo-review"><div className="demo-review-stars">★★★★★</div><p>"Приезжала на диагностику перед покупкой б/у авто. Нашли проблемы, которые продавец скрывал. Спасибо!"</p><div className="demo-review-author">— Екатерина В.</div></div>
-          <div className="demo-review"><div className="demo-review-stars">★★★★★</div><p>"Ремонт ходовой — всё чётко, по списку. Дали гарантию, приехал проверить через 3 месяца — всё ок."</p><div className="demo-review-author">— Виктор Д.</div></div>
-          <div className="demo-review"><div className="demo-review-stars">★★★★☆</div><p>"Хороший сервис, единственный минус — ожидание записи в пиковые дни."</p><div className="demo-review-author">— Ольга М.</div></div>
+
+        <div className="as-reviews">
+          {reviews.map((r, i) => (
+            <div key={i} className="as-review">
+              <div className="as-review-stars">{'★'.repeat(r.stars)}{'☆'.repeat(5 - r.stars)}</div>
+              <div className="as-review-text">«{r.text}»</div>
+              <div className="as-review-author">{r.author}</div>
+              <div className="as-review-car">{r.car}</div>
+            </div>
+          ))}
         </div>
       </section>
 
-      <section id="contact" className="demo-section-full demo-section-dark">
-        <div className="demo-section-inner">
-          <h2>Записаться на ремонт</h2>
-          <p>Опишите проблему — предварительно оценим стоимость</p>
-          <form className="demo-form" onSubmit={e => e.preventDefault()}>
-            <div className="demo-form-row">
-              <input className="demo-input" placeholder="Имя" />
-              <input className="demo-input" placeholder="Телефон" />
+      <section id="contact" className="as-section">
+        <div className="as-section-label">Записаться</div>
+        <h2>Оставить заявку</h2>
+        <p>Заполните форму и мы перезвоним в течение 15 минут</p>
+
+        <div className="as-form-section">
+          <form onSubmit={e => e.preventDefault()}>
+            <div className="as-form-grid">
+              <div className="as-form-group">
+                <label>Имя</label>
+                <input type="text" placeholder="Ваше имя" />
+              </div>
+              <div className="as-form-group">
+                <label>Телефон</label>
+                <input type="tel" placeholder="+7 (___) ___-__-__" />
+              </div>
+              <div className="as-form-group full">
+                <label>Марка / модель</label>
+                <input type="text" placeholder="Например: Toyota Camry 2019" />
+              </div>
+              <div className="as-form-group full">
+                <label>Опишите проблему</label>
+                <textarea placeholder="Расскажите, что беспокоит — поможем разобраться"></textarea>
+              </div>
             </div>
-            <input className="demo-input" placeholder="Марка и модель авто" />
-            <textarea className="demo-input" placeholder="Опишите проблему или нужную услугу" rows={3} style={{ resize: 'vertical' }}></textarea>
-            <button className="demo-btn demo-btn-primary" type="submit">Отправить заявку</button>
+            <button type="submit" className="as-btn as-btn-primary as-form-submit">Отправить заявку</button>
           </form>
         </div>
       </section>
 
-      <section className="demo-cta">
-        <h2>Бесплатная диагностика при ремонте</h2>
-        <p>Запишитесь сегодня — диагностика в подарок</p>
-        <a href="#contact" className="demo-btn demo-btn-accent">Записаться</a>
-      </section>
+      <div className="as-section" style={{ paddingTop: 0, paddingBottom: 0, overflow: 'hidden' }}>
+        <div className="as-cta">
+          <div className="as-cta-inner">
+            <h2>Бесплатная диагностика при ремонте</h2>
+            <p>Запишитесь на ремонт и получите полную диагностику вашего авто бесплатно</p>
+            <a href="#contact" className="as-btn">Записаться сейчас</a>
+          </div>
+        </div>
+      </div>
 
-      <footer className="demo-footer">
-        <p>© 2026 АвтоМастер PRO — Демо-сайт от WEB CAN</p>
+      <div className="as-hazard"></div>
+
+      <footer className="as-footer">
+        © 2026 АвтоМастер PRO — Демо-сайт от WEB CAN
       </footer>
     </div>
   )

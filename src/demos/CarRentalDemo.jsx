@@ -1,185 +1,282 @@
-import { useState } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import './demo.css'
+import './carrental.css'
 
 const fleet = [
-  { id: 1, name: 'Hyundai Solaris', cat: 'Эконом', price: 2500, img: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=500&q=80', seats: 5, transmission: 'АКПП' },
-  { id: 2, name: 'Kia Rio', cat: 'Эконом', price: 2700, img: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=500&q=80', seats: 5, transmission: 'АКПП' },
-  { id: 3, name: 'Toyota Camry', cat: 'Комфорт', price: 4500, img: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=500&q=80', seats: 5, transmission: 'АКПП' },
-  { id: 4, name: 'Mercedes E-Class', cat: 'Бизнес', price: 8000, img: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=500&q=80', seats: 5, transmission: 'АКПП' },
-  { id: 5, name: 'BMW X5', cat: 'Бизнес', price: 9500, img: 'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=500&q=80', seats: 5, transmission: 'АКПП' },
-  { id: 6, name: 'Toyota RAV4', cat: 'Комфорт', price: 5000, img: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=500&q=80', seats: 5, transmission: 'АКПП' },
+  { id: 1, name: 'Kia Rio', cat: 'Эконом', price: 75, seats: 5, transmission: 'АКПП', fuel: 'Бензин', year: 2023 },
+  { id: 2, name: 'Hyundai Solaris', cat: 'Эконом', price: 70, seats: 5, transmission: 'МКПП', fuel: 'Бензин', year: 2022 },
+  { id: 3, name: 'Toyota Camry', cat: 'Комфорт', price: 135, seats: 5, transmission: 'АКПП', fuel: 'Бензин', year: 2024 },
+  { id: 4, name: 'BMW 3 Series', cat: 'Бизнес', price: 210, seats: 5, transmission: 'АКПП', fuel: 'Бензин', year: 2024 },
+  { id: 5, name: 'Mercedes V-Class', cat: 'Минивэн', price: 270, seats: 7, transmission: 'АКПП', fuel: 'Дизель', year: 2023 },
+  { id: 6, name: 'Toyota RAV4', cat: 'Кроссовер', price: 165, seats: 5, transmission: 'АКПП', fuel: 'Бензин', year: 2024 },
 ]
 
-const categories = ['Все', 'Эконом', 'Комфорт', 'Бизнес']
+const categories = ['Все', 'Эконом', 'Комфорт', 'Бизнес', 'Минивэн', 'Кроссовер']
 
 function fmt(n) { return new Intl.NumberFormat('ru-RU').format(n) }
 
+const carEmojis = {
+  'Эконом': '🚗',
+  'Комфорт': '🚙',
+  'Бизнес': '🏎️',
+  'Минивэн': '🚐',
+  'Кроссовер': '🚘',
+}
+
 export default function CarRentalDemo() {
-  const [cat, setCat] = useState('Все')
-  const [days, setDays] = useState(3)
+  const [filter, setFilter] = useState('Все')
   const [selectedCar, setSelectedCar] = useState(null)
-  const [booked, setBooked] = useState(false)
+  const [days, setDays] = useState(3)
+  const bookingRef = useRef(null)
+  const fleetRef = useRef(null)
 
-  const filtered = cat === 'Все' ? fleet : fleet.filter(c => c.cat === cat)
+  const filteredFleet = filter === 'Все' ? fleet : fleet.filter(c => c.cat === filter)
 
-  const discount = days >= 14 ? 0.2 : days >= 7 ? 0.1 : days >= 3 ? 0.05 : 0
-  const total = selectedCar ? Math.round(selectedCar.price * days * (1 - discount)) : 0
+  const discount = days >= 14 ? 20 : days >= 7 ? 10 : days >= 3 ? 5 : 0
+  const total = selectedCar ? Math.round(selectedCar.price * days * (1 - discount / 100)) : 0
 
-  const handleBook = (e) => {
-    e.preventDefault()
-    if (selectedCar) {
-      setBooked(true)
-      setTimeout(() => setBooked(false), 4000)
-    }
+  const handleBook = (car) => {
+    setSelectedCar(car)
+    bookingRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const scrollToFleet = () => {
+    fleetRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const scrollToBooking = () => {
+    bookingRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
-    <div className="demo-page theme-carrental">
+    <div className="cr">
       <Link to="/" className="demo-back">← WEB CAN</Link>
-      <div className="demo-banner">✨ Это демо-сайт — пример работы WEB CAN для сервисов автопроката<Link to="/#niches">Заказать такой же</Link></div>
 
-      <nav className="demo-nav">
-        <div className="demo-nav-inner">
-          <div className="demo-nav-brand">🚗 DriveRent</div>
-          <div className="demo-nav-links">
-            <a href="#fleet">Автопарк</a>
-            <a href="#booking">Бронирование</a>
-            <a href="#conditions">Условия</a>
-            <a href="#contact">Контакты</a>
-          </div>
+      {/* NAV */}
+      <nav className="cr-nav">
+        <a href="#" className="cr-nav-brand">🚗 DriveRent</a>
+        <div className="cr-nav-links">
+          <a onClick={scrollToFleet}>Автопарк</a>
+          <a onClick={scrollToBooking}>Условия</a>
+          <a onClick={scrollToBooking}>Бронь</a>
         </div>
       </nav>
 
-      <section className="demo-hero">
-        <div className="demo-hero-bg" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1200&q=80)' }}></div>
-        <div className="demo-hero-overlay"></div>
-        <div className="demo-hero-content">
-          <h1>Аренда авто без залога</h1>
-          <p>Автопарк от эконома до бизнес-класса. Бронируйте онлайн, получайте авто за 15 минут. Скидки при аренде от 3 дней.</p>
-          <div className="demo-hero-buttons">
-            <a href="#fleet" className="demo-btn demo-btn-primary">Выбрать авто</a>
-            <a href="#conditions" className="demo-btn demo-btn-secondary">Условия аренды</a>
-          </div>
-        </div>
+      {/* HERO */}
+      <section className="cr-hero">
+        <div className="cr-hero-tag">Аренда автомобилей с доставкой</div>
+        <h1>АРЕНДА АВТО —<br />СВОБОДА ДВИЖЕНИЯ</h1>
+        <p className="cr-hero-sub">Без залога • Без скрытых платежей • Доставка к вам</p>
+        <button className="cr-hero-cta" onClick={scrollToFleet}>Выбрать авто →</button>
       </section>
 
-      <div className="demo-section">
-        <div className="demo-stats">
-          <div><div className="demo-stat-value">30+</div><div className="demo-stat-label">Авто в парке</div></div>
-          <div><div className="demo-stat-value">15</div><div className="demo-stat-label">Минут — выдача авто</div></div>
-          <div><div className="demo-stat-value">0 ₽</div><div className="demo-stat-label">Залог</div></div>
-          <div><div className="demo-stat-value">24/7</div><div className="demo-stat-label">Поддержка</div></div>
+      {/* STATS */}
+      <div className="cr-stats">
+        <div className="cr-stat">
+          <div className="cr-stat-num">250+</div>
+          <div className="cr-stat-label">Довольных клиентов</div>
+        </div>
+        <div className="cr-stat">
+          <div className="cr-stat-num">24/7</div>
+          <div className="cr-stat-label">Поддержка</div>
+        </div>
+        <div className="cr-stat">
+          <div className="cr-stat-num">50+</div>
+          <div className="cr-stat-label">Авто в парке</div>
+        </div>
+        <div className="cr-stat">
+          <div className="cr-stat-num">0 BYN</div>
+          <div className="cr-stat-label">Залог</div>
         </div>
       </div>
 
-      <section id="fleet" className="demo-section">
-        <h2>Автопарк</h2>
-        <p>Выберите класс авто</p>
-        <div className="demo-filter-tabs">
-          {categories.map(c => (
-            <button key={c} className={`demo-btn ${cat === c ? 'demo-btn-primary' : 'demo-btn-secondary'}`} style={{ padding: '8px 20px', fontSize: '13px' }} onClick={() => setCat(c)}>{c}</button>
+      {/* FLEET */}
+      <section className="cr-section" ref={fleetRef}>
+        <h2 className="cr-section-title">НАШ АВТОПАРК</h2>
+        <p className="cr-section-sub">Выберите автомобиль для вашего путешествия</p>
+
+        <div className="cr-filters">
+          {categories.map(cat => (
+            <button
+              key={cat}
+              className={`cr-filter-pill${filter === cat ? ' active' : ''}`}
+              onClick={() => setFilter(cat)}
+            >
+              {cat}
+            </button>
           ))}
         </div>
-        <div className="demo-catalog">
-          {filtered.map(car => (
-            <div className="demo-catalog-item" key={car.id} onClick={() => { setSelectedCar(car); document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' }) }} style={{ cursor: 'pointer', borderColor: selectedCar?.id === car.id ? 'var(--demo-primary)' : undefined }}>
-              <img className="demo-catalog-img" src={car.img} alt={car.name} />
-              <div className="demo-catalog-info">
-                <h4>{car.name}</h4>
-                <p>{car.cat} · {car.seats} мест · {car.transmission}</p>
-                <div className="demo-catalog-price">{fmt(car.price)} ₽<span className="demo-text-dim"> / сутки</span></div>
+
+        <div className="cr-fleet">
+          {filteredFleet.map(car => (
+            <div className="cr-car" key={car.id}>
+              <div className="cr-car-img">
+                <span className="cr-car-badge">{car.cat}</span>
+                <span className="cr-car-year">{car.year}</span>
+                {carEmojis[car.cat] || '🚗'}
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="booking" className="demo-section-full demo-section-dark">
-        <div className="demo-section-inner">
-          <h2>Бронирование</h2>
-          <p>{selectedCar ? `Вы выбрали: ${selectedCar.name}` : 'Выберите авто из каталога выше'}</p>
-
-          {booked ? (
-            <div className="demo-success-box">
-              <div className="demo-success-icon">✅</div>
-              <h3>Бронь подтверждена!</h3>
-              <p className="demo-success-detail">{selectedCar?.name} · {days} дней · {fmt(total)} ₽</p>
-            </div>
-          ) : (
-            <form className="demo-form" onSubmit={handleBook}>
-              <div>
-                <label className="demo-label">Количество дней: {days}</label>
-                <input type="range" min={1} max={30} value={days} onChange={e => setDays(Number(e.target.value))} className="demo-range" />
-                <div className="demo-summary-row" style={{ fontSize: '12px' }}>
-                  <span className="demo-text-dim">1 день</span>
-                  <span className="demo-text-dim">30 дней</span>
-                </div>
-              </div>
-
-              {selectedCar && (
-                <div className="demo-highlight-box-lg">
-                  <div className="demo-summary-row">
-                    <div><span className="demo-summary-label">Тариф:</span> <span className="demo-summary-value">{fmt(selectedCar.price)} ₽/день</span></div>
-                    {discount > 0 && <div><span className="demo-summary-label">Скидка:</span> <span className="demo-summary-discount">-{discount * 100}%</span></div>}
-                    <div><span className="demo-summary-label">Итого:</span> <span className="demo-summary-total">{fmt(total)} ₽</span></div>
+              <div className="cr-car-body">
+                <h3 className="cr-car-name">{car.name}</h3>
+                <div className="cr-car-specs">
+                  <div className="cr-car-spec">
+                    <span className="cr-car-spec-icon">👤</span>
+                    {car.seats} мест
+                  </div>
+                  <div className="cr-car-spec">
+                    <span className="cr-car-spec-icon">⚙️</span>
+                    {car.transmission}
+                  </div>
+                  <div className="cr-car-spec">
+                    <span className="cr-car-spec-icon">⛽</span>
+                    {car.fuel}
                   </div>
                 </div>
-              )}
-
-              <div className="demo-form-row">
-                <input className="demo-input" placeholder="Имя" required />
-                <input className="demo-input" placeholder="Телефон" required />
+                <div className="cr-car-bottom">
+                  <div className="cr-car-price">
+                    {fmt(car.price)} BYN <span>/день</span>
+                  </div>
+                  <button className="cr-car-book" onClick={() => handleBook(car)}>
+                    Забронировать →
+                  </button>
+                </div>
               </div>
-              <div className="demo-form-row">
-                <input className="demo-input" type="date" required />
-                <input className="demo-input" placeholder="Водительское удостоверение" required />
-              </div>
-              <button className="demo-btn demo-btn-primary" type="submit" disabled={!selectedCar}>
-                Забронировать{selectedCar ? ` · ${fmt(total)} ₽` : ''}
-              </button>
-            </form>
-          )}
+            </div>
+          ))}
         </div>
       </section>
 
-      <section id="conditions" className="demo-section">
-        <h2>Условия аренды</h2>
-        <p>Всё просто и прозрачно</p>
-        <div className="demo-advantages">
-          <div className="demo-advantage"><div className="demo-advantage-icon">📋</div><div><h4>Минимум документов</h4><p>Паспорт и водительское удостоверение — больше ничего не нужно</p></div></div>
-          <div className="demo-advantage"><div className="demo-advantage-icon">💳</div><div><h4>Без залога</h4><p>Не блокируем деньги на карте. Оплата только за аренду</p></div></div>
-          <div className="demo-advantage"><div className="demo-advantage-icon">📍</div><div><h4>Доставка авто</h4><p>Привезём авто в аэропорт, отель или по адресу — 500 ₽</p></div></div>
-          <div className="demo-advantage"><div className="demo-advantage-icon">🛡️</div><div><h4>Полная страховка</h4><p>КАСКО + ОСАГО включены в стоимость. Ваша безопасность — наш приоритет</p></div></div>
-          <div className="demo-advantage"><div className="demo-advantage-icon">⛽</div><div><h4>Полный бак</h4><p>Выдаём авто с полным баком — верните так же</p></div></div>
-          <div className="demo-advantage"><div className="demo-advantage-icon">📞</div><div><h4>Поддержка 24/7</h4><p>Поломка, ДТП, вопросы — звоните в любое время</p></div></div>
-        </div>
+      {/* BOOKING */}
+      <section className="cr-booking" ref={bookingRef}>
+        <h2 className="cr-section-title">ЗАБРОНИРОВАТЬ</h2>
+        <p className="cr-section-sub">Заполните форму — мы свяжемся с вами за 15 минут</p>
 
-        <div style={{ marginTop: '32px' }}>
-          <h3 style={{ marginBottom: '16px' }}>Скидки за длительную аренду</h3>
-          <div className="demo-table-wrap">
-            <table className="demo-table">
-              <thead><tr><th>Период</th><th>Скидка</th></tr></thead>
-              <tbody>
-                <tr><td>1-2 дня</td><td>Без скидки</td></tr>
-                <tr><td>3-6 дней</td><td><span className="demo-summary-discount">5%</span></td></tr>
-                <tr><td>7-13 дней</td><td><span className="demo-summary-discount">10%</span></td></tr>
-                <tr><td>14+ дней</td><td><span className="demo-summary-discount">20%</span></td></tr>
-              </tbody>
-            </table>
+        <div className="cr-booking-grid">
+          {/* FORM */}
+          <div className="cr-booking-form">
+            <h3 className="cr-form-title">Оформить бронь</h3>
+
+            <div className="cr-form-group">
+              <label>Ваше имя</label>
+              <input type="text" placeholder="Иван Иванов" />
+            </div>
+
+            <div className="cr-form-group">
+              <label>Телефон</label>
+              <input type="tel" placeholder="+7 (999) 123-45-67" />
+            </div>
+
+            {selectedCar ? (
+              <div className="cr-selected-car">
+                <div className="cr-selected-car-name">{carEmojis[selectedCar.cat]} {selectedCar.name}</div>
+                <div className="cr-selected-car-price">{fmt(selectedCar.price)} BYN/день • {selectedCar.cat}</div>
+              </div>
+            ) : (
+              <div className="cr-no-car">
+                ☝️ Выберите автомобиль из каталога выше
+              </div>
+            )}
+
+            <div className="cr-form-group">
+              <div className="cr-days-label">
+                <label>Срок аренды</label>
+                <span className="cr-days-value">{days} {days === 1 ? 'день' : days < 5 ? 'дня' : 'дней'}</span>
+              </div>
+              <input
+                type="range"
+                className="cr-slider"
+                min="1"
+                max="30"
+                value={days}
+                onChange={e => setDays(Number(e.target.value))}
+              />
+              <div className="cr-discounts">
+                <span className={`cr-discount-pill${days >= 3 ? ' active' : ''}`}>от 3 дней — 5%</span>
+                <span className={`cr-discount-pill${days >= 7 ? ' active' : ''}`}>от 7 дней — 10%</span>
+                <span className={`cr-discount-pill${days >= 14 ? ' active' : ''}`}>от 14 дней — 20%</span>
+              </div>
+            </div>
+
+            {selectedCar && (
+              <div className="cr-total">
+                <div className="cr-total-label">Итого за {days} {days === 1 ? 'день' : days < 5 ? 'дня' : 'дней'}{discount > 0 ? ` (скидка ${discount}%)` : ''}</div>
+                <div className="cr-total-amount">{fmt(total)} BYN</div>
+                {discount > 0 && (
+                  <div className="cr-total-detail">Без скидки: {fmt(selectedCar.price * days)} BYN</div>
+                )}
+              </div>
+            )}
+
+            <button className="cr-submit-btn">Отправить заявку</button>
+          </div>
+
+          {/* CONDITIONS SIDEBAR */}
+          <div className="cr-booking-info">
+            <div className="cr-info-card">
+              <div className="cr-info-card-icon">📋</div>
+              <h4>Документы</h4>
+              <p>Паспорт и водительское удостоверение от 2 лет стажа. Для иностранных граждан — загранпаспорт + МВУ.</p>
+            </div>
+            <div className="cr-info-card">
+              <div className="cr-info-card-icon">💳</div>
+              <h4>Оплата</h4>
+              <p>Банковская карта, наличные или перевод. Полная предоплата или 50% при бронировании.</p>
+            </div>
+            <div className="cr-info-card">
+              <div className="cr-info-card-icon">🚚</div>
+              <h4>Доставка</h4>
+              <p>Бесплатная доставка в пределах города при аренде от 3 дней. Подача на вокзал или аэропорт.</p>
+            </div>
+            <div className="cr-info-card">
+              <div className="cr-info-card-icon">🛡️</div>
+              <h4>Страховка</h4>
+              <p>КАСКО и ОСАГО включены. Полная защита на весь срок аренды без доплат.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="contact" className="demo-cta">
-        <h2>Нужна машина прямо сейчас?</h2>
-        <p>Позвоните или забронируйте онлайн — выдача за 15 минут</p>
-        <a href="#fleet" className="demo-btn demo-btn-accent">Выбрать авто</a>
+      {/* CONDITIONS */}
+      <section className="cr-section">
+        <h2 className="cr-section-title">УСЛОВИЯ АРЕНДЫ</h2>
+        <p className="cr-section-sub">Всё просто и прозрачно</p>
+
+        <div className="cr-conditions">
+          <div className="cr-condition">
+            <div className="cr-condition-icon">📄</div>
+            <h3>Документы</h3>
+            <p>Паспорт + водительское удостоверение со стажем от 2 лет</p>
+          </div>
+          <div className="cr-condition">
+            <div className="cr-condition-icon">💰</div>
+            <h3>Оплата</h3>
+            <p>Карта, наличные или банковский перевод — как вам удобно</p>
+          </div>
+          <div className="cr-condition">
+            <div className="cr-condition-icon">🎁</div>
+            <h3>Доставка</h3>
+            <p>Бесплатная доставка авто при аренде от 3 дней</p>
+          </div>
+        </div>
       </section>
 
-      <footer className="demo-footer">
-        <p>© 2026 DriveRent — Демо-сайт от WEB CAN</p>
+      {/* CTA */}
+      <section className="cr-cta">
+        <h2>ГОТОВЫ К ПОЕЗДКЕ?</h2>
+        <p>Забронируйте автомобиль прямо сейчас и отправляйтесь в путь</p>
+        <button className="cr-cta-btn" onClick={scrollToFleet}>Выбрать автомобиль →</button>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="cr-footer">
+        © 2026 DriveRent — Демо-сайт от WEB CAN
       </footer>
+
+      {/* DEMO BANNER */}
+      <div className="demo-banner" style={{ background: 'linear-gradient(90deg,#b45309,#d97706)' }}>
+        ✨ Это демо-сайт — пример работы WEB CAN для автопрокатов
+        <Link to="/#niches">Заказать такой же</Link>
+      </div>
     </div>
   )
 }

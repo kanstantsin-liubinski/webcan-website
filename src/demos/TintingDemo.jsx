@@ -1,153 +1,216 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import './demo.css'
+import './tinting.css'
+
+const prices = {
+  economy: { лобовое: 90, передние: 60, задние: 55, заднее: 75, люк: 45 },
+  premium: { лобовое: 150, передние: 110, задние: 90, заднее: 120, люк: 75 },
+  ceramic: { лобовое: 250, передние: 180, задние: 150, заднее: 210, люк: 120 },
+}
+const filmNames = { economy: 'Стандарт', premium: 'Премиум', ceramic: 'Керамика' }
+const glassNames = {
+  лобовое: 'Лобовое стекло',
+  передние: 'Передние боковые (2 шт)',
+  задние: 'Задние боковые (2 шт)',
+  заднее: 'Заднее стекло',
+  люк: 'Люк',
+}
 
 const portfolio = [
-  { title: 'BMW X6 — передние стёкла', img: 'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=600&q=80', film: '35%' },
-  { title: 'Mercedes GLE — полная', img: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=80', film: '15%' },
-  { title: 'Toyota Land Cruiser', img: 'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=600&q=80', film: '5%' },
-  { title: 'Audi Q7 — лобовое', img: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=80', film: 'Атермальная' },
-  { title: 'Kia K5 — задняя полусфера', img: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&q=80', film: '20%' },
-  { title: 'Porsche Cayenne — PPF+тонировка', img: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f133c?w=600&q=80', film: '25%' },
+  { id: 1, title: 'BMW X5 — Керамика 95%', desc: 'Полная тонировка керамической плёнкой' },
+  { id: 2, title: 'Mercedes S-Class — Премиум', desc: 'Задняя полусфера + лобовое' },
+  { id: 3, title: 'Toyota Land Cruiser 300', desc: 'Атермальная тонировка Хамелеон' },
+  { id: 4, title: 'Porsche Cayenne — 70% затемнение', desc: 'Премиум плёнка задняя полусфера' },
+  { id: 5, title: 'Audi Q7 — Керамика', desc: 'Лобовое + вся задняя часть' },
+  { id: 6, title: 'Range Rover Velar', desc: 'Полная оклейка керамикой' },
+]
+
+const advantages = [
+  { icon: '🛡️', title: '8 лет гарантия', desc: 'Официальная гарантия на все виды плёнок' },
+  { icon: '✨', title: 'Без пузырей', desc: 'Идеальная установка без дефектов' },
+  { icon: '📜', title: 'Сертифицированные плёнки', desc: 'Только оригинальные материалы от производителей' },
+  { icon: '⏱️', title: 'Работа за 2 часа', desc: 'Быстрая установка без потери качества' },
+]
+
+const filmCards = [
+  { key: 'economy', icon: '🔹', name: 'Стандарт', price: 'от 60 BYN', desc: 'Базовая тонировка, защита от солнца и приватность' },
+  { key: 'premium', icon: '💎', name: 'Премиум', price: 'от 110 BYN', desc: 'Улучшенная теплоизоляция, высокая стойкость к царапинам' },
+  { key: 'ceramic', icon: '🔮', name: 'Керамика', price: 'от 150 BYN', desc: 'Максимальная защита от тепла и УФ без помех связи' },
 ]
 
 export default function TintingDemo() {
-  const [filmType, setFilmType] = useState('standard')
-  const [glassCount, setGlassCount] = useState('full')
+  const [filmType, setFilmType] = useState('premium')
+  const [selectedGlass, setSelectedGlass] = useState(['передние', 'задние', 'заднее'])
+  const [phone, setPhone] = useState('')
 
-  const prices = {
-    standard: { front2: 3500, rear: 4000, full: 7000, windshield: 5000 },
-    ceramic: { front2: 6000, rear: 7000, full: 12000, windshield: 8000 },
-    athermal: { front2: 5000, rear: 5500, full: 9500, windshield: 7000 },
+  const calcTotal = useMemo(() => {
+    return selectedGlass.reduce((sum, glass) => sum + (prices[filmType]?.[glass] || 0), 0)
+  }, [filmType, selectedGlass])
+
+  const toggleGlass = (glass) => {
+    setSelectedGlass(prev =>
+      prev.includes(glass) ? prev.filter(g => g !== glass) : [...prev, glass]
+    )
   }
 
-  const currentPrice = prices[filmType]?.[glassCount] || 0
-  const filmNames = { standard: 'Стандартная', ceramic: 'Керамическая', athermal: 'Атермальная' }
-  const glassNames = { front2: '2 передних стекла', rear: 'Задняя полусфера', full: 'Полная тонировка', windshield: 'Лобовое стекло' }
+  const handleSubmit = (e) => {
+    e.preventDefault()
+  }
 
   return (
-    <div className="demo-page theme-tinting">
+    <div className="tn">
       <Link to="/" className="demo-back">← WEB CAN</Link>
-      <div className="demo-banner">✨ Это демо-сайт — пример работы WEB CAN для студий тонировки<Link to="/#niches">Заказать такой же</Link></div>
-
-      <nav className="demo-nav">
-        <div className="demo-nav-inner">
-          <div className="demo-nav-brand">🖤 DarkGlass</div>
-          <div className="demo-nav-links">
-            <a href="#portfolio">Работы</a>
-            <a href="#prices">Цены</a>
-            <a href="#films">Плёнки</a>
-            <a href="#contact">Контакты</a>
-          </div>
-        </div>
-      </nav>
-
-      <section className="demo-hero">
-        <div className="demo-hero-bg" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1200&q=80)' }}></div>
-        <div className="demo-hero-overlay"></div>
-        <div className="demo-hero-content">
-          <h1>Тонировка с гарантией</h1>
-          <p>Профессиональная тонировка автомобилей. Премиальные плёнки, гарантия 5 лет, установка за 2-3 часа.</p>
-          <div className="demo-hero-buttons">
-            <a href="#prices" className="demo-btn demo-btn-primary">Рассчитать стоимость</a>
-            <a href="#portfolio" className="demo-btn demo-btn-secondary">Наши работы</a>
-          </div>
-        </div>
-      </section>
-
-      <div className="demo-section">
-        <div className="demo-stats">
-          <div><div className="demo-stat-value">3000+</div><div className="demo-stat-label">Авто затонировано</div></div>
-          <div><div className="demo-stat-value">5 лет</div><div className="demo-stat-label">Гарантия</div></div>
-          <div><div className="demo-stat-value">2-3ч</div><div className="demo-stat-label">Время установки</div></div>
-          <div><div className="demo-stat-value">4.9</div><div className="demo-stat-label">Рейтинг</div></div>
-        </div>
+      <div className="demo-banner" style={{ background: 'linear-gradient(90deg,#581c87,#7c3aed)' }}>
+        ✨ Это демо-сайт — пример работы WEB CAN для тонировочных студий
+        <Link to="/#niches">Заказать такой же</Link>
       </div>
 
-      <section id="portfolio" className="demo-section">
-        <h2>Портфолио</h2>
-        <p>Примеры наших работ</p>
-        <div className="demo-gallery">
-          {portfolio.map(w => (
-            <div className="demo-gallery-item" key={w.title}>
-              <img src={w.img} alt={w.title} />
-              <div className="demo-gallery-overlay"><span>{w.title} · {w.film}</span></div>
+      {/* NAV */}
+      <nav className="tn-nav">
+        <div className="tn-brand">🌒 DarkGlass</div>
+        <ul className="tn-nav-links">
+          <li><a href="#films">Плёнки</a></li>
+          <li><a href="#portfolio">Работы</a></li>
+          <li><a href="#calc">Расчёт</a></li>
+          <li><a href="#advantages">Гарантии</a></li>
+          <li><a href="#contact">Контакты</a></li>
+        </ul>
+      </nav>
+
+      {/* HERO */}
+      <section className="tn-hero">
+        <h1 className="tn-hero-title">Тонировка<br />нового уровня</h1>
+        <p className="tn-hero-sub">
+          Премиальная тонировка автомобилей керамическими и атермальными плёнками.
+          Защита от жары, ультрафиолета и посторонних глаз.
+        </p>
+        <a href="#calc" className="tn-btn-glow">Рассчитать стоимость</a>
+      </section>
+
+      {/* FILM TYPES */}
+      <section className="tn-section" id="films">
+        <h2 className="tn-section-title">Типы плёнок</h2>
+        <hr className="tn-section-line" />
+        <div className="tn-films-grid">
+          {filmCards.map(f => (
+            <div className="tn-film-card" key={f.key}>
+              <div className="tn-film-icon">{f.icon}</div>
+              <div className="tn-film-name">{f.name}</div>
+              <div className="tn-film-price">{f.price}</div>
+              <p className="tn-film-desc">{f.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section id="prices" className="demo-section-full demo-section-dark">
-        <div className="demo-section-inner">
-          <h2>Калькулятор цен</h2>
-          <p>Выберите тип плёнки и зону тонировки</p>
-
-          <div className="demo-calc">
-            <h3>💲 Расчёт стоимости</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div>
-                <label className="demo-label">Тип плёнки</label>
-                <select className="demo-select" value={filmType} onChange={e => setFilmType(e.target.value)}>
-                  <option value="standard">Стандартная (металлизированная)</option>
-                  <option value="ceramic">Керамическая (премиум)</option>
-                  <option value="athermal">Атермальная (хамелеон)</option>
-                </select>
-              </div>
-              <div>
-                <label className="demo-label">Зона тонировки</label>
-                <select className="demo-select" value={glassCount} onChange={e => setGlassCount(e.target.value)}>
-                  <option value="front2">2 передних стекла</option>
-                  <option value="rear">Задняя полусфера</option>
-                  <option value="full">Полная тонировка (без лобового)</option>
-                  <option value="windshield">Лобовое стекло</option>
-                </select>
+      {/* PORTFOLIO */}
+      <section className="tn-section" id="portfolio">
+        <h2 className="tn-section-title">Наши работы</h2>
+        <hr className="tn-section-line" />
+        <div className="tn-portfolio-grid">
+          {portfolio.map(p => (
+            <div className="tn-portfolio-card" key={p.id}>
+              <div className="tn-portfolio-thumb">🚗</div>
+              <div className="tn-portfolio-info">
+                <div className="tn-portfolio-title">{p.title}</div>
+                <p className="tn-portfolio-desc">{p.desc}</p>
               </div>
             </div>
+          ))}
+        </div>
+      </section>
 
-            <div className="demo-calc-result">
-              <div className="demo-calc-result-label">{filmNames[filmType]} · {glassNames[glassCount]}</div>
-              <div className="demo-calc-result-value">{new Intl.NumberFormat('ru-RU').format(currentPrice)} ₽</div>
-            </div>
+      {/* CALCULATOR */}
+      <section className="tn-calc" id="calc">
+        <div className="tn-calc-inner">
+          <h2 className="tn-section-title">Рассчитайте стоимость</h2>
+          <hr className="tn-section-line" />
+
+          <div className="tn-calc-label">Тип плёнки</div>
+          <div className="tn-calc-tabs">
+            {Object.entries(filmNames).map(([key, name]) => (
+              <button
+                key={key}
+                className={`tn-calc-tab${filmType === key ? ' tn-active' : ''}`}
+                onClick={() => setFilmType(key)}
+              >
+                {name}
+              </button>
+            ))}
           </div>
 
-          <div style={{ marginTop: '32px' }}>
-            <h3 style={{ marginBottom: '16px' }}>Полный прайс-лист</h3>
-            <div className="demo-table-wrap">
-              <table className="demo-table">
-                <thead><tr><th>Зона</th><th>Стандарт</th><th>Керамика</th><th>Атермальная</th></tr></thead>
-                <tbody>
-                  <tr><td>2 передних стекла</td><td>3 500 ₽</td><td>6 000 ₽</td><td>5 000 ₽</td></tr>
-                  <tr><td>Задняя полусфера</td><td>4 000 ₽</td><td>7 000 ₽</td><td>5 500 ₽</td></tr>
-                  <tr><td>Полная (без лобового)</td><td>7 000 ₽</td><td>12 000 ₽</td><td>9 500 ₽</td></tr>
-                  <tr><td>Лобовое стекло</td><td>5 000 ₽</td><td>8 000 ₽</td><td>7 000 ₽</td></tr>
-                </tbody>
-              </table>
+          <div className="tn-calc-label">Зоны остекления</div>
+          <div className="tn-glass-zones">
+            {Object.entries(glassNames).map(([key, name]) => (
+              <button
+                key={key}
+                className={`tn-glass-chip${selectedGlass.includes(key) ? ' tn-selected' : ''}`}
+                onClick={() => toggleGlass(key)}
+              >
+                {name}
+              </button>
+            ))}
+          </div>
+
+          {selectedGlass.length > 0 && (
+            <div className="tn-calc-breakdown">
+              {selectedGlass.map(glass => (
+                <div className="tn-calc-row" key={glass}>
+                  <span className="tn-calc-row-name">{glassNames[glass]}</span>
+                  <span className="tn-calc-row-price">
+                    {(prices[filmType]?.[glass] || 0).toLocaleString('ru-RU')} BYN
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="tn-calc-total">
+            <div className="tn-calc-total-label">Итого</div>
+            <div className="tn-calc-total-value">
+              {calcTotal.toLocaleString('ru-RU')} <span className="tn-calc-total-curr">BYN</span>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="films" className="demo-section">
-        <h2>Типы плёнок</h2>
-        <p>Какую выбрать — зависит от ваших задач</p>
-        <div className="demo-cards">
-          <div className="demo-card"><div className="demo-card-icon">🎞️</div><h3>Стандартная</h3><p>Металлизированная плёнка. Хорошая защита от солнца, доступная цена. Гарантия 3 года.</p></div>
-          <div className="demo-card"><div className="demo-card-icon">💎</div><h3>Керамическая</h3><p>Премиум-плёнка без металла. Не блокирует GPS/телефон. Максимальная защита от UV и ИК. Гарантия 5 лет.</p></div>
-          <div className="demo-card"><div className="demo-card-icon">🌈</div><h3>Атермальная</h3><p>Плёнка «хамелеон» с переливом. Защита от жары при высокой прозрачности. Идеальна для лобового.</p></div>
+      {/* ADVANTAGES */}
+      <section className="tn-section" id="advantages">
+        <h2 className="tn-section-title">Почему мы</h2>
+        <hr className="tn-section-line" />
+        <div className="tn-advantages-grid">
+          {advantages.map((a, i) => (
+            <div className="tn-advantage-card" key={i}>
+              <div className="tn-advantage-icon">{a.icon}</div>
+              <div className="tn-advantage-title">{a.title}</div>
+              <p className="tn-advantage-desc">{a.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      <section id="contact" className="demo-cta">
-        <h2>Запишитесь на тонировку</h2>
-        <p>Установка за 2-3 часа · Гарантия до 5 лет</p>
-        <div className="demo-cta-form">
-          <input placeholder="Ваш телефон" />
-          <button className="demo-btn demo-btn-accent">Записаться</button>
+      {/* CTA */}
+      <section className="tn-cta" id="contact">
+        <div className="tn-cta-form">
+          <h2 className="tn-cta-title">Запишитесь на тонировку</h2>
+          <p className="tn-cta-sub">Оставьте номер — мы перезвоним и подберём лучший вариант</p>
+          <form onSubmit={handleSubmit}>
+            <input
+              className="tn-input"
+              type="tel"
+              placeholder="+7 (___) ___-__-__"
+              value={phone}
+              onChange={e => setPhone(e.target.value)}
+            />
+            <button type="submit" className="tn-btn-glow">Отправить заявку</button>
+          </form>
         </div>
       </section>
 
-      <footer className="demo-footer">
-        <p>© 2026 DarkGlass — Демо-сайт от WEB CAN</p>
+      {/* FOOTER */}
+      <footer className="tn-footer">
+        © 2026 DarkGlass — Демо-сайт от WEB CAN
       </footer>
     </div>
   )

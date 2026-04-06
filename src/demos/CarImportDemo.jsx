@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import './demo.css'
+import './carimport.css'
 
 const cars = [
   { name: 'Toyota Camry 2024', price: 28000, img: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=500&q=80', engine: '2.5L', status: 'В наличии' },
@@ -16,18 +17,31 @@ const CUSTOMS_BASE_RATE = 0.12
 const DELIVERY_COST = 2500
 const SERVICE_FEE = 1500
 
-function fmt(n) {
-  return new Intl.NumberFormat('ru-RU').format(Math.round(n))
-}
+function fmt(n) { return new Intl.NumberFormat('ru-RU').format(Math.round(n)) }
+
+const steps = [
+  { num: 1, title: 'Заявка', desc: 'Вы оставляете заявку — мы связываемся в течение 30 минут' },
+  { num: 2, title: 'Подбор', desc: 'Подбираем авто по вашим параметрам и бюджету' },
+  { num: 3, title: 'Покупка', desc: 'Выкупаем автомобиль, проверяем состояние и документы' },
+  { num: 4, title: 'Доставка', desc: 'Доставляем авто морем или автовозом — 10–14 дней' },
+  { num: 5, title: 'Растаможка', desc: 'Полное оформление, растаможка и регистрация' },
+  { num: 6, title: 'Передача', desc: 'Передаём авто с полным пакетом документов' },
+]
+
+const reviews = [
+  { name: 'Алексей К.', initials: 'АК', date: 'Февраль 2026', text: 'Заказывал Kia Sportage из Кореи. Всё прозрачно — от расчёта до получения авто. Доставили за 12 дней, состояние идеальное. Рекомендую AutoBring!' },
+  { name: 'Марина С.', initials: 'МС', date: 'Январь 2026', text: 'Долго сомневалась, но ребята всё объяснили и рассчитали. Toyota Camry пригнали точно в срок, никаких скрытых платежей. Очень довольна сервисом!' },
+]
 
 export default function CarImportDemo() {
   const [carPrice, setCarPrice] = useState(30000)
   const [engineSize, setEngineSize] = useState('1.6-2.0')
   const [year, setYear] = useState('2024')
+  const [phone, setPhone] = useState('')
 
   const calc = useMemo(() => {
     const price = Number(carPrice) || 0
-    const usdRate = 92
+    const usdRate = 3.25
     const priceRub = price * usdRate
     const ageFactor = year === '2024' ? 1 : year === '2023' ? 0.95 : year === '2022' ? 0.88 : 0.8
     const customs = priceRub * CUSTOMS_BASE_RATE * ageFactor
@@ -39,87 +53,95 @@ export default function CarImportDemo() {
   }, [carPrice, engineSize, year])
 
   return (
-    <div className="demo-page theme-carimport">
+    <div className="ci">
       <Link to="/" className="demo-back">← WEB CAN</Link>
-      <div className="demo-banner">✨ Это демо-сайт — пример работы WEB CAN для компаний по пригону авто<Link to="/#niches">Заказать такой же</Link></div>
 
-      <nav className="demo-nav">
-        <div className="demo-nav-inner">
-          <div className="demo-nav-brand">🚘 AutoBring</div>
-          <div className="demo-nav-links">
-            <a href="#calculator">Калькулятор</a>
-            <a href="#catalog">Каталог</a>
-            <a href="#how">Как работаем</a>
-            <a href="#contact">Контакты</a>
-          </div>
-        </div>
+      {/* NAV */}
+      <nav className="ci-nav">
+        <div className="ci-nav-brand">🚘 AutoBring</div>
+        <ul className="ci-nav-links">
+          <li><a href="#calculator">Калькулятор</a></li>
+          <li><a href="#catalog">Каталог</a></li>
+          <li><a href="#how">Как мы работаем</a></li>
+          <li><a href="#reviews">Отзывы</a></li>
+          <li><a href="#cta" className="ci-nav-cta">Оставить заявку</a></li>
+        </ul>
       </nav>
 
-      <section className="demo-hero">
-        <div className="demo-hero-bg" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1200&q=80)' }}></div>
-        <div className="demo-hero-overlay"></div>
-        <div className="demo-hero-content">
-          <h1>Пригон авто из-за рубежа</h1>
-          <p>Привезём автомобиль вашей мечты из США, Кореи, Европы. Полное сопровождение: подбор, проверка, доставка, растаможка.</p>
-          <div className="demo-hero-buttons">
-            <a href="#calculator" className="demo-btn demo-btn-primary">Рассчитать стоимость</a>
-            <a href="#catalog" className="demo-btn demo-btn-secondary">Смотреть каталог</a>
+      {/* HERO */}
+      <section className="ci-hero">
+        <div className="ci-hero-content">
+          <h1>Пригон авто из-за рубежа под ключ</h1>
+          <p>Подберём, купим, доставим и растаможим автомобиль вашей мечты. Прозрачные цены, никаких скрытых платежей.</p>
+          <div className="ci-hero-btns">
+            <a href="#calculator" className="ci-btn ci-btn-primary">Рассчитать стоимость</a>
+            <a href="#catalog" className="ci-btn ci-btn-outline">Смотреть каталог</a>
           </div>
         </div>
       </section>
 
-      <div className="demo-section">
-        <div className="demo-stats">
-          <div><div className="demo-stat-value">1200+</div><div className="demo-stat-label">Авто доставлено</div></div>
-          <div><div className="demo-stat-value">14</div><div className="demo-stat-label">Дней средняя доставка</div></div>
-          <div><div className="demo-stat-value">6</div><div className="demo-stat-label">Лет на рынке</div></div>
-          <div><div className="demo-stat-value">0</div><div className="demo-stat-label">Скрытых платежей</div></div>
+      {/* STATS */}
+      <div className="ci-stats">
+        <div className="ci-stat-card">
+          <div className="ci-stat-val">1 200+</div>
+          <div className="ci-stat-label">Автомобилей пригнано</div>
+        </div>
+        <div className="ci-stat-card">
+          <div className="ci-stat-val">14 дней</div>
+          <div className="ci-stat-label">Средний срок доставки</div>
+        </div>
+        <div className="ci-stat-card">
+          <div className="ci-stat-val">6 лет</div>
+          <div className="ci-stat-label">На рынке</div>
+        </div>
+        <div className="ci-stat-card">
+          <div className="ci-stat-val">0</div>
+          <div className="ci-stat-label">Скрытых платежей</div>
         </div>
       </div>
 
-      <section id="calculator" className="demo-section-full demo-section-dark">
-        <div className="demo-section-inner">
-          <h2>Калькулятор стоимости</h2>
-          <p>Рассчитайте полную стоимость авто «под ключ» с доставкой и растаможкой</p>
-
-          <div className="demo-calc">
-            <h3>💰 Расчёт стоимости</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div>
-                <label className="demo-label">Цена авто (USD)</label>
-                <input
-                  className="demo-input"
-                  type="number"
-                  value={carPrice}
-                  onChange={e => setCarPrice(e.target.value)}
-                  min={1000}
-                  max={500000}
-                  step={500}
-                />
-                <input
-                  type="range"
-                  min={5000}
-                  max={150000}
-                  step={500}
-                  value={carPrice}
-                  onChange={e => setCarPrice(e.target.value)}
-                  style={{ width: '100%', marginTop: '8px', accentColor: 'var(--demo-primary)' }}
-                />
-              </div>
-
-              <div className="demo-form-row">
-                <div>
-                  <label className="demo-label">Объём двигателя</label>
-                  <select className="demo-select" value={engineSize} onChange={e => setEngineSize(e.target.value)}>
-                    <option value="1.0-1.5">1.0 — 1.5 л</option>
-                    <option value="1.6-2.0">1.6 — 2.0 л</option>
-                    <option value="2.1-3.0">2.1 — 3.0 л</option>
+      {/* CALCULATOR */}
+      <div className="ci-section-alt" id="calculator">
+        <div className="ci-calc-wrap">
+          <div className="ci-calc">
+            <div className="ci-calc-header">
+              <h2>📊 Калькулятор стоимости</h2>
+              <p>Рассчитайте полную стоимость авто с доставкой и растаможкой</p>
+            </div>
+            <div className="ci-calc-body">
+              <div className="ci-calc-inputs">
+                <div className="ci-calc-field">
+                  <label>Цена авто (USD)</label>
+                  <input
+                    type="number"
+                    value={carPrice}
+                    onChange={e => setCarPrice(e.target.value)}
+                    min="5000"
+                    max="200000"
+                    step="1000"
+                  />
+                  <input
+                    type="range"
+                    value={carPrice}
+                    onChange={e => setCarPrice(e.target.value)}
+                    min="5000"
+                    max="200000"
+                    step="1000"
+                  />
+                  <div className="ci-calc-price-display">${fmt(carPrice)}</div>
+                </div>
+                <div className="ci-calc-field">
+                  <label>Объём двигателя</label>
+                  <select value={engineSize} onChange={e => setEngineSize(e.target.value)}>
+                    <option value="1.0-1.5">1.0 – 1.5 л</option>
+                    <option value="1.6-2.0">1.6 – 2.0 л</option>
+                    <option value="2.1-3.0">2.1 – 3.0 л</option>
                     <option value="3.1+">3.1+ л</option>
                   </select>
                 </div>
-                <div>
-                  <label className="demo-label">Год выпуска</label>
-                  <select className="demo-select" value={year} onChange={e => setYear(e.target.value)}>
+                <div className="ci-calc-field">
+                  <label>Год выпуска</label>
+                  <select value={year} onChange={e => setYear(e.target.value)}>
                     <option value="2024">2024</option>
                     <option value="2023">2023</option>
                     <option value="2022">2022</option>
@@ -127,76 +149,127 @@ export default function CarImportDemo() {
                   </select>
                 </div>
               </div>
-            </div>
-
-            <div className="demo-calc-result">
-              <div className="demo-calc-result-label">Итого «под ключ»</div>
-              <div className="demo-calc-result-value">{fmt(calc.total)} ₽</div>
-              <div className="demo-calc-breakdown">
-                <div className="demo-calc-breakdown-item"><span>Авто</span><span>{fmt(calc.priceRub)} ₽</span></div>
-                <div className="demo-calc-breakdown-item"><span>Таможня</span><span>{fmt(calc.customs)} ₽</span></div>
-                <div className="demo-calc-breakdown-item"><span>Акциз</span><span>{fmt(calc.excise)} ₽</span></div>
-                <div className="demo-calc-breakdown-item"><span>Доставка</span><span>{fmt(calc.delivery)} ₽</span></div>
-                <div className="demo-calc-breakdown-item"><span>Наши услуги</span><span>{fmt(calc.service)} ₽</span></div>
+              <div className="ci-calc-result">
+                <h3>Расчёт стоимости</h3>
+                <div className="ci-calc-row">
+                  <span className="ci-calc-row-label">🚗 Авто</span>
+                  <span className="ci-calc-row-val">{fmt(calc.priceRub)} BYN</span>
+                </div>
+                <div className="ci-calc-row">
+                  <span className="ci-calc-row-label">🏛 Таможня</span>
+                  <span className="ci-calc-row-val">{fmt(calc.customs)} BYN</span>
+                </div>
+                <div className="ci-calc-row">
+                  <span className="ci-calc-row-label">⛽ Акциз</span>
+                  <span className="ci-calc-row-val">{fmt(calc.excise)} BYN</span>
+                </div>
+                <div className="ci-calc-row">
+                  <span className="ci-calc-row-label">🚢 Доставка</span>
+                  <span className="ci-calc-row-val">{fmt(calc.delivery)} BYN</span>
+                </div>
+                <div className="ci-calc-row">
+                  <span className="ci-calc-row-label">💼 Наши услуги</span>
+                  <span className="ci-calc-row-val">{fmt(calc.service)} BYN</span>
+                </div>
+                <div className="ci-calc-total">
+                  <span className="ci-calc-total-label">Итого</span>
+                  <span className="ci-calc-total-val">{fmt(calc.total)} BYN</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      <section id="catalog" className="demo-section">
-        <h2>Каталог авто</h2>
-        <p>Доступные варианты — закажите или выберите из наличия</p>
-        <div className="demo-catalog">
-          {cars.map(car => (
-            <div className="demo-catalog-item" key={car.name}>
-              <img className="demo-catalog-img" src={car.img} alt={car.name} />
-              <div className="demo-catalog-info">
-                <h4>{car.name}</h4>
-                <p>{car.engine} · {car.status === 'В наличии' ? <span className="demo-badge demo-badge-green">{car.status}</span> : <span className="demo-badge demo-badge-orange">{car.status}</span>}</p>
-                <div className="demo-catalog-price">${fmt(car.price)}</div>
+      {/* CATALOG */}
+      <section className="ci-section" id="catalog">
+        <h2 className="ci-section-title">Популярные автомобили</h2>
+        <p className="ci-section-sub">Выберите авто или закажите подбор по вашим параметрам</p>
+        <div className="ci-cars-grid">
+          {cars.map((car, i) => (
+            <div className="ci-car-card" key={i}>
+              <div className="ci-car-img">
+                <img src={car.img} alt={car.name} loading="lazy" />
+                <span className={`ci-car-badge ${car.status === 'В наличии' ? 'ci-badge-green' : 'ci-badge-orange'}`}>
+                  {car.status}
+                </span>
+              </div>
+              <div className="ci-car-info">
+                <h3 className="ci-car-name">{car.name}</h3>
+                <p className="ci-car-engine">Двигатель: {car.engine}</p>
+                <div className="ci-car-price">
+                  {fmt(car.price * 3.25)} BYN <span>≈ ${fmt(car.price)}</span>
+                </div>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      <section id="how" className="demo-section-full demo-section-dark">
-        <div className="demo-section-inner">
-          <h2>Как мы работаем</h2>
-          <p>5 простых шагов до авто вашей мечты</p>
-          <div className="demo-cards">
-            <div className="demo-card"><div className="demo-card-icon">📋</div><h3>1. Заявка</h3><p>Вы оставляете заявку и описываете желаемый автомобиль. Или выбираете из каталога.</p></div>
-            <div className="demo-card"><div className="demo-card-icon">🔍</div><h3>2. Подбор</h3><p>Находим лучшие варианты на аукционах, проверяем Carfax/AutoCheck, отправляем отчёт.</p></div>
-            <div className="demo-card"><div className="demo-card-icon">💳</div><h3>3. Покупка</h3><p>Выкупаем авто, оформляем все документы, готовим к отправке.</p></div>
-            <div className="demo-card"><div className="demo-card-icon">🚢</div><h3>4. Доставка</h3><p>Морская или авиадоставка в Россию. Полное сопровождение на каждом этапе.</p></div>
-            <div className="demo-card"><div className="demo-card-icon">📝</div><h3>5. Растаможка</h3><p>Берём на себя все таможенные формальности, оформляем ПТС, ставим на учёт.</p></div>
-            <div className="demo-card"><div className="demo-card-icon">🔑</div><h3>6. Передача</h3><p>Передаём вам авто с полным пакетом документов. Готово к езде!</p></div>
+      {/* HOW WE WORK — TIMELINE */}
+      <div className="ci-section-alt" id="how">
+        <section className="ci-section">
+          <h2 className="ci-section-title">Как мы работаем</h2>
+          <p className="ci-section-sub">6 простых шагов от заявки до вашего нового авто</p>
+          <div className="ci-timeline">
+            {steps.map(s => (
+              <div className="ci-step" key={s.num}>
+                <div className="ci-step-num">{s.num}</div>
+                <div className="ci-step-content">
+                  <h4>{s.title}</h4>
+                  <p>{s.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
+        </section>
+      </div>
+
+      {/* REVIEWS */}
+      <section className="ci-section" id="reviews">
+        <h2 className="ci-section-title">Отзывы клиентов</h2>
+        <p className="ci-section-sub">Нам доверяют сотни довольных владельцев</p>
+        <div className="ci-reviews-grid">
+          {reviews.map((r, i) => (
+            <div className="ci-review-card" key={i}>
+              <div className="ci-review-stars">★★★★★</div>
+              <p className="ci-review-text">«{r.text}»</p>
+              <div className="ci-review-author">
+                <div className="ci-review-avatar">{r.initials}</div>
+                <div>
+                  <div className="ci-review-name">{r.name}</div>
+                  <div className="ci-review-date">{r.date}</div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
-      <section className="demo-section">
-        <h2>Отзывы</h2>
-        <p>Что говорят наши клиенты</p>
-        <div className="demo-reviews">
-          <div className="demo-review"><div className="demo-review-stars">★★★★★</div><p>"Пригнали Toyota Camry за 3 недели. Всё прозрачно — калькулятор на сайте показал реальную сумму."</p><div className="demo-review-author">— Сергей Т.</div></div>
-          <div className="demo-review"><div className="demo-review-stars">★★★★★</div><p>"Заказывал BMW из Кореи. Ребята присылали фото на каждом этапе, вопросов ноль."</p><div className="demo-review-author">— Андрей П.</div></div>
-        </div>
-      </section>
-
-      <section id="contact" className="demo-cta">
+      {/* CTA */}
+      <section className="ci-cta" id="cta">
         <h2>Хотите авто из-за рубежа?</h2>
-        <p>Оставьте заявку — рассчитаем стоимость за 30 минут</p>
-        <div className="demo-cta-form">
-          <input placeholder="Ваш телефон" />
-          <button className="demo-btn demo-btn-accent">Получить расчёт</button>
+        <p>Оставьте номер — рассчитаем стоимость и подберём лучший вариант</p>
+        <div className="ci-cta-form">
+          <input
+            type="tel"
+            placeholder="+7 (___) ___-__-__"
+            value={phone}
+            onChange={e => setPhone(e.target.value)}
+          />
+          <button type="button">Получить расчёт</button>
         </div>
       </section>
 
-      <footer className="demo-footer">
-        <p>© 2026 AutoBring — Демо-сайт от WEB CAN</p>
+      {/* FOOTER */}
+      <footer className="ci-footer">
+        © 2026 AutoBring — Демо-сайт от WEB CAN
       </footer>
+
+      <div className="demo-banner">
+        ✨ Это демо-сайт — пример работы WEB CAN для компаний по пригону авто
+        <Link to="/#niches">Заказать такой же</Link>
+      </div>
     </div>
   )
 }
